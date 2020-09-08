@@ -404,7 +404,7 @@
 											"top": 239,
 											"width": 94,
 											"height": 13,
-											"text": "Bearth"
+											"text": "Berth"
 										},
 										{
 											"_type": "LabelView",
@@ -2444,9 +2444,9 @@
 										"$ref": "AAAAAAF0bojNdyLKd+Y="
 									},
 									"font": "Arial;13;0",
-									"left": 336,
+									"left": 335,
 									"top": 412,
-									"width": 5.05908203125,
+									"width": 6.5,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
@@ -3180,7 +3180,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Bearth"
+					"name": "Berth"
 				},
 				{
 					"_type": "UMLModel",
