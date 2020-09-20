@@ -1,0 +1,7 @@
+-The member has now a direct association with the calendar, where it can be accessed.
+
+-Notations for our associations have been changed and worked on, even the naming for some of them has been changed. 
+
+-The addition of more attributes have also been made to the model.
+
+-The member has to pay a membership fee to assign a boat to a berth. This whole process is now also logged in a record, so the history of berth registration is now implemented. 
