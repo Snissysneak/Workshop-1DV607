@@ -5,3 +5,21 @@
 -The addition of more attributes have also been made to the model.
 
 -The member has to pay a membership fee to assign a boat to a berth. This whole process is now also logged in a record, so the history of berth registration is now implemented. 
+
+xxxxxxxxxxxxxxxxxxxxxxxx BARTEK xxxxxxxxxxxxxxxxxxxxxxxx 
+
+
+Changes we have done according to peer review suggestions:
+
+- "+" signs are removed
+- Double horizontal line has been removed 
+
+
+Changes we haven't done according to peer review suggestions:
+
+- Association "change" and "remove" between member and boat is not incorporated. We think that is wrong
+- Connection between secretary and berth is not incorporated. We believe that is unnecessary.
+- Secretary class is kept in our model. We think that secretary class is needed.
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
