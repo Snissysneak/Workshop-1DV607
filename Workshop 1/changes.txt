@@ -1,25 +1,27 @@
--The member has now a direct association with the calendar, where it can be accessed.
-
--Notations for our associations have been changed and worked on, even the naming for some of them has been changed. 
-
--The addition of more attributes have also been made to the model.
-
--The member has to pay a membership fee to assign a boat to a berth. This whole process is now also logged in a record, so the history of berth registration is now implemented. 
-
-xxxxxxxxxxxxxxxxxxxxxxxx BARTEK xxxxxxxxxxxxxxxxxxxxxxxx 
-
-
 Changes we have done according to peer review suggestions:
 
-- "+" signs are removed
-- Double horizontal line has been removed 
+- "+" signs are removed because they are not following domain model common
 
+- Double horizontal line has been removed because conceptual classes in domain model have just name and attributes.
+ 
+-The member has now a direct association with the calendar, where it can be accessed. We thought that it was important for the member to access the calendar and not just the secretary.
+
+-Notations for our associations have been changed and worked on, even the naming for some of them has been changed. We made this change because it wasn't following the right UML format.
+
+-The addition of more attributes have also been made to the model. We got some feedback regarding the lack of attributes and then decided to add some extra to compliment the requirements.
+
+-The member has to pay a membership fee to assign a boat to a berth. This whole process is now also logged in a record, so the history of berth registration is now implemented. The group
+decided to add this since it was one part of the requirements we missed the first time. 
+
+- Connection between secretary and berth is implemented, if we look at the requirements for assigning berths it's states that the secretary approves the booking of berths.
 
 Changes we haven't done according to peer review suggestions:
 
-- Association "change" and "remove" between member and boat is not incorporated. We think that is wrong
-- Connection between secretary and berth is not incorporated. We believe that is unnecessary.
-- Secretary class is kept in our model. We think that secretary class is needed.
+- Association "change" and "remove" between member and boat is not incorporated. We think that is wrong since the teacher has already explained in the lectures that it's enough to have
+one association, in this case we used "owns" which basically explains the whole thing.
 
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+- Connection between secretary and berth is not incorporated. We believe that is unnecessary because the requirements for grade 2 doesn't bring this up.
 
+- Secretary class is kept in our model. We think that secretary class is needed, so we can show that there is someone 
+
+- We think that we have enough attribute and we don’t need to use more. Couple reviews suggested that we have not enough attributes
