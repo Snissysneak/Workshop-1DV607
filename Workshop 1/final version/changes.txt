@@ -20,8 +20,5 @@ Changes we haven't done according to peer review suggestions:
 - Association "change" and "remove" between member and boat is not incorporated. We think that is wrong since the teacher has already explained in the lectures that it's enough to have
 one association, in this case we used "owns" which basically explains the whole thing.
 
-- Connection between secretary and berth is not incorporated. We believe that is unnecessary because the requirements for grade 2 doesn't bring this up.
+- Secretary class is kept in our model. We think that secretary class is needed because someone needs to manage the calendar and approve berths.
 
-- Secretary class is kept in our model. We think that secretary class is needed, so we can show that there is someone 
-
-- We think that we have enough attribute and we don’t need to use more. Couple reviews suggested that we have not enough attributes
