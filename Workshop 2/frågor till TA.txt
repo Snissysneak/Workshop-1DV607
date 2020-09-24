@@ -1,0 +1,2 @@
+1.	Behöver vi controller eller det räcker med model-view?
+2.	Behöver vi spara data eler det räcker med programmet som startar från början varje gång
