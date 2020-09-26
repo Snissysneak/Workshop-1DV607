@@ -1,0 +1,2 @@
+Textfile standard for member: [id]|name|/personal number/-boats-
+Textfile standard for boats: _id_<typ>%length%
