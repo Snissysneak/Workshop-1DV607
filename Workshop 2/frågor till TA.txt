@@ -1,2 +1,7 @@
 1.	Behöver vi controller eller det räcker med model-view?
+Kolla med tobias och kolla slack, TA tror att model view controller är bäst.
+
 2.	Behöver vi spara data eler det räcker med programmet som startar från början varje gång
+Vi behöver en fil json eller txt
+
+model: Vi behöver association mellan member och boat, kolla igenom våra notationer.
