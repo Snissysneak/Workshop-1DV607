@@ -1,6 +1,4 @@
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.List;
 
 public class MemberRegistry extends Member{
@@ -40,19 +38,12 @@ public class MemberRegistry extends Member{
 
     public void updateTXT() {
         try {
-            File myFile = new File("members.txt"); //new files created
-            PrintWriter pw = new PrintWriter(myFile); //to write stuff to the file
-            String str = "[" + member.getMemberID() + "]|" + member.getName() + "|/" + member.getPersonalNum() + "/";          //Needs more content but works
+            String str = "[" + member.getMemberID() + "]|" + member.getName() + "|/" + member.getPersonalNum() + "/";   //The content we want to add.
 
-            /*while((line = bufferedReader.readLine()) != null)
-            {
-                sb.append(line); //append the lines to the string       //This does not work fuck this shit
-                sb.append('\n'); //append new line
-            }*/
-
-            pw.println(str); //add content to file
-
-            pw.close(); //close writer
+            FileWriter fstream = new FileWriter("members.txt",true);    //Use FileWriter to create file and BufferedWriter so we don't overwrite the file with new content.
+            BufferedWriter out = new BufferedWriter(fstream);
+            out.write(str + "\n");
+            out.close();    //Close BufferedWriter
 
         } catch (IOException e) {
             System.out.println("An error occurred.");
