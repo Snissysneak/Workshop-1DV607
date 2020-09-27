@@ -1,14 +1,12 @@
 import java.util.Scanner;
 
 public class Console extends MemberRegistry{
-
     /*
     * This is the head menu where we make our first choices.
     * It leads to a another method that runs a sub menu.
     * */
 
     static void mainMenu() {
-        MemberRegistry memReg = new MemberRegistry();
         Scanner sc = new Scanner(System.in); //Implement scanner
 
         System.out.println("Welcome to main menu"); //Start of menu
@@ -23,6 +21,8 @@ public class Console extends MemberRegistry{
     * */
 
     static void subMenu(int choice) {
+        MemberRegistry memReg = new MemberRegistry();
+        Member mem = new Member();
         Scanner sc = new Scanner(System.in); //Implement scanner
         int val;
 
@@ -35,6 +35,11 @@ public class Console extends MemberRegistry{
 
             if (val == 1) {
                 System.out.println("Create member!");
+                String name = sc.next();
+                String personalNum = sc.next();
+                int memberID = mem.idGenerator(); //call for rand id
+
+                memReg.addMember(name, personalNum, memberID); //call for adding the member
             }
             else if (val == 2) {
                 System.out.println("Member info!");

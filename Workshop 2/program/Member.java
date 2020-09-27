@@ -42,4 +42,8 @@ public class Member {
     public void setMemberID(int memberID) {
         this.memberID = memberID;
     }
+
+    public int idGenerator() {
+        return (int)(Math.random() * ((9999 - 1) + 1)) + 1; //random number gen
+    }
 }
