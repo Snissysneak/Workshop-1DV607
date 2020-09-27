@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Console {
+public class Console extends MemberRegistry{
 
     /*
     * This is the head menu where we make our first choices.
@@ -8,6 +8,7 @@ public class Console {
     * */
 
     static void mainMenu() {
+        MemberRegistry memReg = new MemberRegistry();
         Scanner sc = new Scanner(System.in); //Implement scanner
 
         System.out.println("Welcome to main menu"); //Start of menu
