@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.List;
+import java.util.Scanner;
 
 public class MemberRegistry extends Member{
     Member member;
@@ -28,17 +29,17 @@ public class MemberRegistry extends Member{
         updateTXT(); //call for method
     }
 
-    public void deleteMember() {
+    public void deleteMember(String input) {
 
     }
 
-    public void changeMember() {
+    public void changeMember(String input) {
 
     }
 
     public void updateTXT() {
         try {
-            String str = "[" + member.getMemberID() + "]|" + member.getName() + "|/" + member.getPersonalNum() + "/";   //The content we want to add.
+            String str = member.getMemberID() + " " + member.getName() + " " + member.getPersonalNum();   //The content we want to add.
 
             FileWriter fstream = new FileWriter("members.txt",true);    //Use FileWriter to create file and BufferedWriter so we don't overwrite the file with new content.
             BufferedWriter out = new BufferedWriter(fstream);
@@ -51,7 +52,18 @@ public class MemberRegistry extends Member{
         }
     }
 
-    public void getComposeList() {
+    public void getComposeList() throws IOException {
+
+        File file = new File("members.txt");
+
+        Scanner scan = new Scanner(file);
+        while (scan.hasNextLine()) {
+            String line = scan.nextLine();
+            System.out.println(line);
+            String [] entry = line.split(" ");
+            System.out.println(entry[1]);
+        }
+        scan.close();
 
     }
 
