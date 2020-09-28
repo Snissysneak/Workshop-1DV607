@@ -29,8 +29,38 @@ public class MemberRegistry extends Member{
         updateTXT(); //call for method
     }
 
-    public void deleteMember(String input) {
+    public void deleteMember(String input) throws FileNotFoundException {
+        File temp = new File("temp.txt");
+        File mainFile = new File("members.txt");
+        String id = "";
+        String name = "";
+        String personalNumber = "";
+        try {
+            FileWriter fw = new FileWriter(temp, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            Scanner x = new Scanner(new File("members.txt"));
+            x.useDelimiter("[,\n]");
 
+            while(x.hasNext()) {
+                id = x.next();
+                name = x.next();
+                personalNumber = x.next();
+
+                if(!id.equals(input)) {
+                    pw.println(id + "," + name + "," + personalNumber);
+                }
+            }
+            x.close();
+            pw.flush();
+            pw.close();
+            mainFile.delete();
+            File dump = new File("members.txt");
+            temp.renameTo(dump);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void changeMember(String input) {
@@ -39,7 +69,7 @@ public class MemberRegistry extends Member{
 
     public void updateTXT() {
         try {
-            String str = member.getMemberID() + " " + member.getName() + " " + member.getPersonalNum();   //The content we want to add.
+            String str = member.getMemberID() + "," + member.getName() + "," + member.getPersonalNum();   //The content we want to add.
 
             FileWriter fstream = new FileWriter("members.txt",true);    //Use FileWriter to create file and BufferedWriter so we don't overwrite the file with new content.
             BufferedWriter out = new BufferedWriter(fstream);

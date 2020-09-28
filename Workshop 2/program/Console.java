@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Console extends MemberRegistry{
@@ -6,7 +7,7 @@ public class Console extends MemberRegistry{
     * It leads to a another method that runs a sub menu.
     * */
 
-    static void mainMenu() {
+    static void mainMenu() throws FileNotFoundException {
         Scanner sc = new Scanner(System.in); //Implement scanner
 
         System.out.println("Welcome to main menu"); //Start of menu
@@ -20,7 +21,7 @@ public class Console extends MemberRegistry{
     * In here we have several different if statements depending on the choices we make.
     * */
 
-    static void subMenu(int choice) {
+    static void subMenu(int choice) throws FileNotFoundException {
         MemberRegistry memReg = new MemberRegistry();
         Member mem = new Member();
         Scanner sc = new Scanner(System.in); //Implement scanner
@@ -48,7 +49,10 @@ public class Console extends MemberRegistry{
                 System.out.println("Change member!");
             }
             else if (val == 4) {
-                System.out.println("Remove member!");
+                System.out.println("Give id of the member you want to delete: ");
+                String id = sc.next();
+                memReg.deleteMember(id);
+                System.out.println("Member removed!");
             }
             else {
                 System.out.println("This value is not valid");
@@ -113,7 +117,7 @@ public class Console extends MemberRegistry{
             System.out.println("This value is not valid");
         }
     }
-    public static void main (String[] args) {
+    public static void main (String[] args) throws FileNotFoundException {
         mainMenu(); //Starts off the program by calling the method mainMenu.
     }
 }
