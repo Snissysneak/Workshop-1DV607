@@ -1,3 +1,4 @@
+package model;
 public class Boat{
     int boatID;
     String boatType;

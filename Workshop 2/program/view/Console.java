@@ -1,7 +1,10 @@
+package view;
+import model.Member;
+import model.MemberRegistry;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Console extends MemberRegistry{
+public class Console extends MemberRegistry {
     /*
     * This is the head menu where we make our first choices.
     * It leads to a another method that runs a sub menu.
