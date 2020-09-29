@@ -1,6 +1,10 @@
+import org.testng.annotations.AfterTest;
+
 import java.io.*;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MemberRegistry extends Member{
     Member member;
@@ -61,10 +65,82 @@ public class MemberRegistry extends Member{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        removeBlankSpaces();
     }
 
     public void changeMember(String input) {
+        File temp = new File("temp.txt");
+        File mainFile = new File("members.txt");
+        String id = "";
+        String name = "";
+        String personalNumber = "";
+        try {
+            FileWriter fw = new FileWriter(temp, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            Scanner x = new Scanner(new File("members.txt"));
+            x.useDelimiter("[,\n]");
+            Scanner scan = new Scanner(System.in);
 
+            while(x.hasNext()) {
+                id = x.next();
+                name = x.next();
+                personalNumber = x.next();
+
+                if(id.equals(input)) {
+                    System.out.println("Set new name: ");
+                    name = scan.next();
+                    System.out.println("Set new personal number: ");
+                    personalNumber = scan.next();
+
+                    pw.println(id + "," + name + "," + personalNumber);
+                }
+                else if (!id.equals(input)) {
+                    pw.println(id + "," + name + "," + personalNumber);
+                }
+            }
+            x.close();
+            pw.flush();
+            pw.close();
+            mainFile.delete();
+            File dump = new File("members.txt");
+            temp.renameTo(dump);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        removeBlankSpaces();
+    }
+
+    public void removeBlankSpaces() {
+        Scanner file;
+        PrintWriter writer;
+
+        try {
+
+            file = new Scanner(new File("members.txt"));
+            writer = new PrintWriter("members2.txt");
+
+            while (file.hasNext()) {
+                String line = file.nextLine();
+                if (!line.isEmpty()) {
+                    writer.write(line);
+                    writer.write("\n");
+                }
+            }
+
+            file.close();
+            writer.close();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(AfterTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        File file1 = new File("members.txt");
+        File file2 = new File("members2.txt");
+
+        file1.delete();
+        file2.renameTo(file1);
     }
 
     public void updateTXT() {
@@ -84,17 +160,16 @@ public class MemberRegistry extends Member{
 
     public void getComposeList() throws IOException {
 
-        File file = new File("members.txt");
+        removeBlankSpaces();
 
-        Scanner scan = new Scanner(file);
-        while (scan.hasNextLine()) {
-            String line = scan.nextLine();
+        Scanner sc = new Scanner(new File("members.txt"));
+
+        while (sc.hasNext()) {
+            String line = sc.nextLine();
             System.out.println(line);
-            String [] entry = line.split(" ");
-            System.out.println(entry[1]);
+            String [] entry = line.split(",");
         }
-        scan.close();
-
+        sc.close();
     }
 
     public void getVerboseList() {
