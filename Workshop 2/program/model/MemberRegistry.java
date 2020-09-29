@@ -1,5 +1,5 @@
+package model;
 import java.io.*;
-import java.util.List;
 import java.util.Scanner;
 
 public class MemberRegistry extends Member{
@@ -9,7 +9,6 @@ public class MemberRegistry extends Member{
     StringBuilder sb; // not currently in use but leave it for now
 
     public MemberRegistry() {
-
     }
 
     public MemberRegistry(/*ArrayList<Member> members*/Member member) {
@@ -30,9 +29,7 @@ public class MemberRegistry extends Member{
     public void deleteMember(String input) throws FileNotFoundException {
         File temp = new File("temp.txt");
         File mainFile = new File("members.txt");
-        String id = "";
-        String name = "";
-        String personalNumber = "";
+        String id, name, personalNumber;
         try {
             FileWriter fw = new FileWriter(temp, true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -62,7 +59,77 @@ public class MemberRegistry extends Member{
     }
 
     public void changeMember(String input) {
+        File temp = new File("temp.txt");
+        File mainFile = new File("members.txt");
+        String id, name, personalNumber;
+        try {
+            FileWriter fw = new FileWriter(temp, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            Scanner x = new Scanner(new File("members.txt"));
+            x.useDelimiter("[,\n]");
+            Scanner scan = new Scanner(System.in);
 
+            while(x.hasNext()) {
+                id = x.next();
+                name = x.next();
+                personalNumber = x.next();
+
+                if(id.equals(input)) {
+                    System.out.print("Set new name: ");
+                    name = scan.next();
+                    System.out.print("Set new personal number: ");
+                    personalNumber = scan.next();
+
+                    pw.println(id + "," + name + "," + personalNumber);
+
+                }
+                else {
+                    pw.println(id + "," + name + "," + personalNumber);
+                }
+            }
+            x.close();
+            pw.flush();
+            pw.close();
+            mainFile.delete();
+            File dump = new File("members.txt");
+            temp.renameTo(dump);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        removeBlankSpaces();
+    }
+
+    public void removeBlankSpaces() {
+        Scanner file;
+        PrintWriter writer;
+
+        try {
+
+            file = new Scanner(new File("members.txt"));
+            writer = new PrintWriter("members2.txt");
+
+            while (file.hasNext()) {
+                String line = file.nextLine();
+                if (!line.isEmpty()) {
+                    writer.write(line);
+                    writer.write("\n");
+                }
+            }
+
+            file.close();
+            writer.close();
+
+        } catch (FileNotFoundException ex) {
+            System.out.println("File not found");
+        }
+        File file1 = new File("members.txt");
+        File file2 = new File("members2.txt");
+
+        file1.delete();
+        file2.renameTo(file1);
     }
 
     public void updateTXT() {

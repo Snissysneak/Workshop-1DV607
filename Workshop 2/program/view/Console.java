@@ -1,8 +1,12 @@
-import java.io.FileNotFoundException;
+package view;
+
+import model.Member;
+import model.MemberRegistry;
+
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Console extends MemberRegistry{
+public class Console extends MemberRegistry {
     /*
     * This is the head menu where we make our first choices.
     * It leads to a another method that runs a sub menu.
@@ -36,26 +40,28 @@ public class Console extends MemberRegistry{
             //Here we make our choices for member
 
             if (val == 1) {
-                System.out.print("enter name: ");
+                System.out.print("Set name: ");
                 String name = sc.next();
-                System.out.print("enter personal number: ");
+                System.out.print("Set personal number: ");
                 String personalNum = sc.next();
                 int memberID = mem.idGenerator(); //call for rand id
-                Member member = new Member(name, personalNum, memberID);
 
                 memReg.addMember(name, personalNum, memberID); //call for adding the member
                 System.out.println("Member succesfully created");
             }
             else if (val == 2) {
-                System.out.println("Give id of the member you want to check: ");
+                System.out.print("Give id of the member you want to check: ");
                 String id = sc.next();
                 memReg.getMemberInfo(id);
             }
             else if (val == 3) {
-                System.out.println("Change member!");
+                System.out.print("Chose member id for the member you want to change: ");
+                String id = sc.next();
+                memReg.changeMember(id);
+
             }
             else if (val == 4) {
-                System.out.println("Give id of the member you want to delete: ");
+                System.out.print("Give id of the member you want to delete: ");
                 String id = sc.next();
                 memReg.deleteMember(id);
                 System.out.println("Member removed!");
@@ -112,6 +118,7 @@ public class Console extends MemberRegistry{
 
         //Asks if you want to return to main menu.
 
+        System.out.println();
         System.out.println("Do you want to go back to main menu? Type 1 for yes and 2 for no");
         int value = sc.nextInt();
         if (value == 1) {
@@ -124,6 +131,12 @@ public class Console extends MemberRegistry{
             System.out.println("This value is not valid");
         }
     }
+    public void printComposeEntry(String[] cEntry){
+        System.out.print("Member ID: " +cEntry[0]);
+        System.out.print(", name: " +cEntry[1]);
+        System.out.print(", person number: " +cEntry[2] +"\n");
+    }
+
     public static void main (String[] args) throws IOException {
         mainMenu(); //Starts off the program by calling the method mainMenu.
     }
