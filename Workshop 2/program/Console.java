@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Console extends MemberRegistry{
@@ -7,7 +8,7 @@ public class Console extends MemberRegistry{
     * It leads to a another method that runs a sub menu.
     * */
 
-    static void mainMenu() throws FileNotFoundException {
+    static void mainMenu() throws IOException {
         Scanner sc = new Scanner(System.in); //Implement scanner
 
         System.out.println("Welcome to main menu"); //Start of menu
@@ -21,7 +22,7 @@ public class Console extends MemberRegistry{
     * In here we have several different if statements depending on the choices we make.
     * */
 
-    static void subMenu(int choice) throws FileNotFoundException {
+    static void subMenu(int choice) throws IOException {
         MemberRegistry memReg = new MemberRegistry();
         Member mem = new Member();
         Scanner sc = new Scanner(System.in); //Implement scanner
@@ -46,7 +47,9 @@ public class Console extends MemberRegistry{
                 System.out.println("Member info!");
             }
             else if (val == 3) {
-                System.out.println("Change member!");
+                System.out.println("Chose member id for the member you want to change: ");
+                String id = sc.next();
+                memReg.changeMember(id);
             }
             else if (val == 4) {
                 System.out.println("Give id of the member you want to delete: ");
@@ -92,7 +95,7 @@ public class Console extends MemberRegistry{
                 System.out.println("Get verbose!");
             }
             else if (val == 2) {
-                System.out.println("Get compose!");
+                memReg.getComposeList();
             }
 
             else {
@@ -106,18 +109,18 @@ public class Console extends MemberRegistry{
         //Asks if you want to return to main menu.
 
         System.out.println("Do you want to go back to main menu? Type 1 for yes and 2 for no");
-        int value = sc.nextInt();
-        if (value == 1) {
+        val = sc.nextInt();
+        if (val == 1) {
             mainMenu();
         }
-        else if (value == 2) {
-            sc.close();
+        else if (val == 2) {
         }
         else {
             System.out.println("This value is not valid");
         }
+
     }
-    public static void main (String[] args) throws FileNotFoundException {
+    public static void main (String[] args) throws IOException {
         mainMenu(); //Starts off the program by calling the method mainMenu.
     }
 }
