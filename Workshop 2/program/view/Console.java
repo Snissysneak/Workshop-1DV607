@@ -1,16 +1,14 @@
-package view;
-
-import model.Member;
-import model.MemberRegistry;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Console extends MemberRegistry {
+public class Console extends MemberRegistry{
     /*
     * This is the head menu where we make our first choices.
     * It leads to a another method that runs a sub menu.
+    *
+    * No need to look here for anything specific mostly
+    * just class calls and if-statements.
     * */
-    public Console console = new Console();
 
     static void mainMenu() throws IOException {
         Scanner sc = new Scanner(System.in); //Implement scanner
@@ -81,6 +79,14 @@ public class Console extends MemberRegistry {
 
             if (val == 1) {
                 System.out.println("Register boat!");
+                System.out.println("Enter boat type");
+                String type = sc.next();
+                System.out.println("Enter boat length");
+                int length = sc.nextInt();
+                System.out.println("To what member do you want ot add the boat to?");
+                String owner = sc.next();
+
+                mem.addBoat(type, length, owner);
             }
             else if (val == 2) {
                 System.out.println("Boat info!");
@@ -120,8 +126,7 @@ public class Console extends MemberRegistry {
         }
 
         //Asks if you want to return to main menu.
-        System.out.println();
-        System.out.println("Do you want to go back to main menu? Type 1 for yes and 2 for no");
+        System.out.println("\nDo you want to go back to main menu? Type 1 for yes and 2 for no");
         int value = sc.nextInt();
         if (value == 1) {
             mainMenu();
@@ -133,7 +138,6 @@ public class Console extends MemberRegistry {
             System.out.println("This value is not valid");
         }
     }
-
     public static void main (String[] args) throws IOException {
         mainMenu(); //Starts off the program by calling the method mainMenu.
     }

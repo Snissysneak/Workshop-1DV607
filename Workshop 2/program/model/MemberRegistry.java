@@ -1,18 +1,16 @@
-package model;
 import java.io.*;
 import java.util.Scanner;
 
 public class MemberRegistry extends Member{
     Member member;
-    //ArrayList<Member> members = new ArrayList<Member>();
 
     StringBuilder sb; // not currently in use but leave it for now
 
     public MemberRegistry() {
+
     }
 
-    public MemberRegistry(/*ArrayList<Member> members*/Member member) {
-        //this.members = members; //leave this
+    public MemberRegistry(Member member) {
         this.member = member;
     }
                 /*
@@ -138,5 +136,4 @@ public class MemberRegistry extends Member{
             e.printStackTrace();
         }
     }
-
 }
