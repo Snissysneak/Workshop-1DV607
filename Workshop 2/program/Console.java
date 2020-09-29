@@ -36,20 +36,23 @@ public class Console extends MemberRegistry{
             //Here we make our choices for member
 
             if (val == 1) {
-                System.out.println("Create member!");
+                System.out.print("enter name: ");
                 String name = sc.next();
+                System.out.print("enter personal number: ");
                 String personalNum = sc.next();
                 int memberID = mem.idGenerator(); //call for rand id
+                Member member = new Member(name, personalNum, memberID);
 
                 memReg.addMember(name, personalNum, memberID); //call for adding the member
+                System.out.println("Member succesfully created");
             }
             else if (val == 2) {
-                System.out.println("Member info!");
+                System.out.println("Give id of the member you want to check: ");
+                String id = sc.next();
+                memReg.getMemberInfo(id);
             }
             else if (val == 3) {
-                System.out.println("Chose member id for the member you want to change: ");
-                String id = sc.next();
-                memReg.changeMember(id);
+                System.out.println("Change member!");
             }
             else if (val == 4) {
                 System.out.println("Give id of the member you want to delete: ");
@@ -95,6 +98,7 @@ public class Console extends MemberRegistry{
                 System.out.println("Get verbose!");
             }
             else if (val == 2) {
+                System.out.println("Get compose!");
                 memReg.getComposeList();
             }
 
@@ -109,16 +113,16 @@ public class Console extends MemberRegistry{
         //Asks if you want to return to main menu.
 
         System.out.println("Do you want to go back to main menu? Type 1 for yes and 2 for no");
-        val = sc.nextInt();
-        if (val == 1) {
+        int value = sc.nextInt();
+        if (value == 1) {
             mainMenu();
         }
-        else if (val == 2) {
+        else if (value == 2) {
+            sc.close();
         }
         else {
             System.out.println("This value is not valid");
         }
-
     }
     public static void main (String[] args) throws IOException {
         mainMenu(); //Starts off the program by calling the method mainMenu.

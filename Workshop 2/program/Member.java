@@ -8,7 +8,7 @@ public class Member {
     public Member(String name, String personalNum, int memberID) {
         this.name = name;
         this.personalNum = personalNum;
-        this. memberID = memberID;
+        this.memberID = memberID;
     }
 
     public void addBoat() {
@@ -46,4 +46,5 @@ public class Member {
     public int idGenerator() {
         return (int)(Math.random() * ((9999 - 1) + 1)) + 1; //random number gen
     }
+
 }
