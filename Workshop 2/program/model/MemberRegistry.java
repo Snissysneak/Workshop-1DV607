@@ -58,10 +58,10 @@ public class MemberRegistry extends Member{
         }
     }
 
-    public void changeMember(String input) {
+    public void updateRegistry(String rvID, String rvName, String rvPerNum) {
         File temp = new File("temp.txt");
         File mainFile = new File("members.txt");
-        String id, name, personalNumber;
+        String id, name, personalNumber, line;
         try {
             FileWriter fw = new FileWriter(temp, true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -74,15 +74,8 @@ public class MemberRegistry extends Member{
                 id = x.next();
                 name = x.next();
                 personalNumber = x.next();
-
-                if(id.equals(input)) {
-                    System.out.print("Set new name: ");
-                    name = scan.next();
-                    System.out.print("Set new personal number: ");
-                    personalNumber = scan.next();
-
-                    pw.println(id + "," + name + "," + personalNumber);
-
+                if(id.equals(rvID)) {
+                    pw.println(rvID + "," + rvName + "," + rvPerNum);
                 }
                 else {
                     pw.println(id + "," + name + "," + personalNumber);
@@ -142,48 +135,8 @@ public class MemberRegistry extends Member{
             out.close();    //Close BufferedWriter
 
         } catch (IOException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
-    public void getMemberInfo(String input) throws IOException {
 
-        File file = new File("members.txt");
-
-        Scanner scan = new Scanner(file);
-        while (scan.hasNextLine()) {
-            String line = scan.nextLine();
-            String [] entry = line.split(",");
-            if (entry[0].equals(input)) {
-                printComposeEntry(entry);
-            }
-        }
-        scan.close();
-
-    }
-
-    public void getComposeList() throws IOException {
-
-        File file = new File("members.txt");
-        Scanner scan = new Scanner(file);
-
-        System.out.println("Compose list of members:");
-        while (scan.hasNextLine()) {
-            String line = scan.nextLine();
-            String [] entry = line.split(",");
-            printComposeEntry(entry);
-        }
-        scan.close();
-
-    }
-    public void printComposeEntry(String[]cEntry){
-        System.out.print("Member ID: " +cEntry[0]);
-        System.out.print(", name: " +cEntry[1]);
-        System.out.print(", person number: " +cEntry[2] +"\n");
-    }
-
-    public void getVerboseList() {
-        System.out.println("Comming soon!");
-
-    }
 }

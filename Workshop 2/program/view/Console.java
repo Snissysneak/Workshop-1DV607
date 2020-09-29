@@ -2,7 +2,6 @@ package view;
 
 import model.Member;
 import model.MemberRegistry;
-
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -11,6 +10,7 @@ public class Console extends MemberRegistry {
     * This is the head menu where we make our first choices.
     * It leads to a another method that runs a sub menu.
     * */
+    public Console console = new Console();
 
     static void mainMenu() throws IOException {
         Scanner sc = new Scanner(System.in); //Implement scanner
@@ -28,6 +28,7 @@ public class Console extends MemberRegistry {
 
     static void subMenu(int choice) throws IOException {
         MemberRegistry memReg = new MemberRegistry();
+        RegistryView list = new RegistryView();
         Member mem = new Member();
         Scanner sc = new Scanner(System.in); //Implement scanner
         int val;
@@ -52,12 +53,13 @@ public class Console extends MemberRegistry {
             else if (val == 2) {
                 System.out.print("Give id of the member you want to check: ");
                 String id = sc.next();
-                memReg.getMemberInfo(id);
+                list.getMemberInfo(id);
             }
             else if (val == 3) {
                 System.out.print("Chose member id for the member you want to change: ");
                 String id = sc.next();
-                memReg.changeMember(id);
+                list.changeMember(id);
+                System.out.println("Member succesfully changed");
 
             }
             else if (val == 4) {
@@ -102,10 +104,11 @@ public class Console extends MemberRegistry {
 
             if (val == 1) {
                 System.out.println("Get verbose!");
+                list.getVerboseList();
             }
             else if (val == 2) {
                 System.out.println("Get compose!");
-                memReg.getComposeList();
+                list.getComposeList();
             }
 
             else {
@@ -117,7 +120,6 @@ public class Console extends MemberRegistry {
         }
 
         //Asks if you want to return to main menu.
-
         System.out.println();
         System.out.println("Do you want to go back to main menu? Type 1 for yes and 2 for no");
         int value = sc.nextInt();
@@ -130,11 +132,6 @@ public class Console extends MemberRegistry {
         else {
             System.out.println("This value is not valid");
         }
-    }
-    public void printComposeEntry(String[] cEntry){
-        System.out.print("Member ID: " +cEntry[0]);
-        System.out.print(", name: " +cEntry[1]);
-        System.out.print(", person number: " +cEntry[2] +"\n");
     }
 
     public static void main (String[] args) throws IOException {
