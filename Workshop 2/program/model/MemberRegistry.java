@@ -23,7 +23,7 @@ public class MemberRegistry extends Member{
     public void addMember(String name, String personalNum, int memberID) {
         member = new Member(name, personalNum, memberID); //create a new member for usage in updating the txt file
         try {
-            String str = member.getMemberID() + "," + member.getName() + "," + member.getPersonalNum();   //The content we want to add.
+            String str = member.getMemberID() + " " + member.getName() + " " + member.getPersonalNum();   //The content we want to add.
 
             FileWriter fstream = new FileWriter("members.txt",true);    //Use FileWriter to create file and BufferedWriter so we don't overwrite the file with new content.
             BufferedWriter out = new BufferedWriter(fstream);
@@ -46,14 +46,32 @@ public class MemberRegistry extends Member{
             Scanner x = new Scanner(new File("members.txt"));
             x.useDelimiter("[,\n]");
 
-            while(x.hasNext()) {
-                id = x.next();
-                name = x.next();
-                personalNumber = x.next();
+            while (x.hasNextLine()) {
+                String line = x.nextLine();     //whole line from file
+                if (line.isEmpty())
+                    continue;
 
-                if(!id.equals(input)) {
-                    pw.println(id + "," + name + "," + personalNumber);
+                String[] entries = line.split("\\s");   //line into array
+                String newLine = "";
+                if(!entries[0].equals(input)){
+                    for (int i = 0; i < entries.length; i++)
+                    {
+                        String current = entries[i];
+                        if(!current.equals(input)) {        //PrintWrite entries which are different than input
+                            if(!current.isEmpty())
+                                newLine = newLine + current + " ";      //PW entry
+
+                            else {
+                                continue;
+                            }
+                        }
+
+                    }System.out.println(newLine);   //for test purpose
                 }
+                else {      //when memberID equals input do nothing
+                    continue;
+                }
+                pw.println(newLine);
             }
             x.close();
             pw.flush();
@@ -88,7 +106,7 @@ public class MemberRegistry extends Member{
 
             while ((strLine = br.readLine()) != null)   {
                 if(strLine.contains(input)) {
-                    fw.append(strLine + "," + newBoat.getBoatID() + "," + newBoat.getBoatType() + "," + newBoat.getBoatLength());
+                    fw.append(strLine + " " + newBoat.getBoatID() + " " + newBoat.getBoatType() + " " + newBoat.getBoatLength());
                 }
                 else {
                     fw.append(strLine);
@@ -120,6 +138,7 @@ public class MemberRegistry extends Member{
     }
 
     public void deleteBoat(String input) {
+
         File temp = new File("temp.txt");
         File mainFile = new File("members.txt");
         String id, boatType, boatLength;
@@ -129,28 +148,35 @@ public class MemberRegistry extends Member{
             PrintWriter pw = new PrintWriter(bw);
             Scanner x = new Scanner(new File("members.txt"));
             x.useDelimiter("[,\n]");
-            String str = "";
-            boolean rowBreak = false;
 
-            while(x.hasNext()) {
-                while (x.hasNext()) {
-                    id = x.next();
-                    boatType = x.next();
-                    boatLength = x.next();
-                    if (boatLength.contains("/")) {
-                        rowBreak = true;
-                        
-                    }
-                    if (!id.equals(input)) {
-                        System.out.println(str + id + "," + boatType + "," + boatLength + ",");
-                        str += id + "," + boatType + "," + boatLength + ",";
-                    }
-                    if (rowBreak) {
-                        str += ("\n");
-                    }
-                }
+            while (x.hasNextLine()) {
+                String line = x.nextLine();     //whole line from file
+                if (line.isEmpty())
+                    continue;
 
-                pw.println(str);
+                String[] entries = line.split("\\s");   //line into array
+                String newLine = "";
+
+                for (int i = 0; i < entries.length; i++)
+                {
+                    String current = entries[i];
+                    if(!current.equals(input)) {        //PrintWrite entries which are different than input
+                        if(!current.isEmpty())
+                            newLine = newLine + current + " ";      //PW entry
+
+                        else {
+                            continue;
+                        }
+                    }
+                    /*If current entry = input --> delete entry + 2 next entries (boat type and length */
+                    else {
+                        entries[i] = "";
+                        entries[i+1] = "";
+                        entries[i+2] = "";
+                    }
+
+                }System.out.println(newLine);   //for test purpose
+                pw.println(newLine);
             }
             x.close();
             pw.flush();
