@@ -81,7 +81,6 @@ public class Console extends MemberRegistry {
             //Here we make our choices for boat
 
             if (val == 1) {
-                System.out.println("Register boat!");
                 System.out.println("Enter boat type");
                 String type = sc.next();
                 System.out.println("Enter boat length");
@@ -89,7 +88,7 @@ public class Console extends MemberRegistry {
                 System.out.println("To what member do you want ot add the boat to?");
                 String owner = sc.next();
 
-                mem.addBoat(type, length, owner);
+                memReg.addBoat(type, length, owner);
             }
             else if (val == 2) {
                 System.out.println("Boat info!");
@@ -98,7 +97,9 @@ public class Console extends MemberRegistry {
                 System.out.println("Change boat!");
             }
             else if (val == 4) {
-                System.out.println("Remove boat!");
+                System.out.println("What boat do you want ot remove? (enter boat ID)");
+                String id = sc.next();
+                memReg.deleteBoat(id);
             }
             else {
                 System.out.println("This value is not valid");
