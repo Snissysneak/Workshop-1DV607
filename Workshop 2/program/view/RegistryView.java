@@ -3,6 +3,7 @@ import model.Boat;
 import model.MemberRegistry;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -18,7 +19,7 @@ public class RegistryView {
             String line = scan.nextLine();
             String [] entry = line.split(" ");
             if (entry[0].equals(input)) {             //If we find the user print it out
-                printComposeEntry(entry);
+                printMember(entry);
             }
         }
         scan.close();
@@ -30,24 +31,44 @@ public class RegistryView {
         Scanner scan = new Scanner(file);
 
         System.out.println("Compose list of members:");
-        while (scan.hasNextLine()) {                    //Read each line
+        while (scan.hasNextLine()) {//Read each line
             String line = scan.nextLine();
             String [] entry = line.split(" ");    //Split as each " "
-            printComposeEntry(entry);                   //Call method for printing
+            printMember(entry);                   //Call method for printing
         }
         scan.close();
     }
-    public void getVerboseList() {
-        System.out.println("Comming soon!");
+    public void getVerboseList() throws FileNotFoundException {
+        File file = new File("members.txt");    //File we will read from
+        Scanner scan = new Scanner(file);
+        String id, type, length;
+        int count = 0;
 
+        System.out.println("Compose list of members:");
+        while (scan.hasNextLine()) {//Read each line
+            String line = scan.nextLine();
+            String [] entry = line.split(" ");    //Split as each " "
+            printMember(entry);                   //Call method for printing
+            System.out.println("Boats: ");
+
+            for (int i=3; i < entry.length; i++ ){
+                if (i%3 == 0){
+                    id = entry[i];
+                    type = entry[i+1];
+                    length = entry[i+2];
+                    printBoat(id,type,length);
+                }
+            }
+        }
+        scan.close();
     }
-    public void printComposeEntry(String[] cEntry){
-        System.out.print("Member ID: " +cEntry[0]);             //Take only the first part of entry and print
-        System.out.print(", name: " +cEntry[1]);                //Take only the second part and print
-        System.out.print(", person number: " +cEntry[2] +"\n"); //Take only the third part and print
+    public void printMember(String[] entry){
+        System.out.print("Member ID: " +entry[0]);             //Take only the first part of entry and print
+        System.out.print(", name: " +entry[1]);                //Take only the second part and print
+        System.out.print(", person number: " +entry[2] +"\n"); //Take only the third part and print
     }
-    public void printVerboseEntry(String vEntry){
-        System.out.println("Comming soon!");
+    public void printBoat(String id, String type, String length){
+        System.out.println("    BoatID: " + id + ", boat type: " + type + ", boat length: " + length);
     }
 
     public void changeMemberRegistryView(String input_id) {
