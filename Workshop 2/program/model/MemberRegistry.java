@@ -2,10 +2,8 @@ package model;
 import java.io.*;
 import java.util.Scanner;
 
-public class MemberRegistry extends Member{
+public class MemberRegistry {
     Member member;
-
-    StringBuilder sb; // not currently in use but leave it for now
 
     public MemberRegistry() {
 
@@ -14,11 +12,6 @@ public class MemberRegistry extends Member{
     public MemberRegistry(Member member) {
         this.member = member;
     }
-                /*
-                This is the format we are going to use in the txt file
-                Textfile standard for member:   [id]|name|/personal number/-boats-
-                Textfile standard for boats:    _id_<typ>%length%
-                */
 
     public void addMember(String name, String personalNum, int memberID) {
         member = new Member(name, personalNum, memberID); //create a new member for usage in updating the txt file
@@ -35,10 +28,9 @@ public class MemberRegistry extends Member{
         }
     }
 
-    public void deleteMember(String input) throws FileNotFoundException {
+    public void deleteMember(String input) {
         File temp = new File("temp.txt");
         File mainFile = new File("members.txt");
-        String id, name, personalNumber;
         try {
             FileWriter fw = new FileWriter(temp, true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -86,37 +78,34 @@ public class MemberRegistry extends Member{
     }
 
     public void addBoat(String boatType, int boatLength, String input) {
-        //This is a bad solution for adding boats to the txt file.
+        Member mem = new Member(); //Call for member class to access idGenerator()
+        int boatID = mem.idGenerator();
 
-        //It reades the information from the original file and then
-        //changes the information in the temp file and lastly takes
-        //the information from the temp file to the original file
-        int boatID = idGenerator();
         Boat newBoat = new Boat(boatID, boatType, boatLength);
 
         try{
-            File temp = new File("temp.txt");
+            File temp = new File("temp.txt"); //Creat temporary file to write to
 
             FileWriter fw = new FileWriter(temp, false);
-            FileInputStream fstream = new FileInputStream("members.txt");
-            DataInputStream in = new DataInputStream(fstream);
+            FileInputStream fStream = new FileInputStream("members.txt");
+            DataInputStream in = new DataInputStream(fStream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
             String strLine;
 
             while ((strLine = br.readLine()) != null)   {
-                if(strLine.contains(input)) {
+                if(strLine.contains(input)) { //If the member is in the current line we want to add the boat at the end
                     fw.append(strLine + " " + newBoat.getBoatID() + " " + newBoat.getBoatType() + " " + newBoat.getBoatLength());
                 }
                 else {
-                    fw.append(strLine);
+                    fw.append(strLine); //Else we just want to get the normal line
                 }
                 fw.append("\n");
             }
             fw.close();
             in.close();
 
-            File original = new File("members.txt");
+            File original = new File("members.txt"); //Now we want to read from the temporary file to the original file
 
             FileWriter fileWriter = new FileWriter(original, false);
             FileInputStream fileStream = new FileInputStream("temp.txt");
@@ -125,13 +114,13 @@ public class MemberRegistry extends Member{
 
             String stringLine;
 
-            while ((stringLine = bReader.readLine()) != null)   {
+            while ((stringLine = bReader.readLine()) != null)   { //Line for line add to the original file
                 fileWriter.append(stringLine + "\n");
             }
             fileWriter.close();
             inData.close();
 
-            temp.delete();
+            temp.delete(); //delete the temporary file
         }catch (Exception e){
             System.err.println("Error: " + e.getMessage());
         }
@@ -141,7 +130,6 @@ public class MemberRegistry extends Member{
 
         File temp = new File("temp.txt");
         File mainFile = new File("members.txt");
-        String id, boatType, boatLength;
         try {
             FileWriter fw = new FileWriter(temp, true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -187,7 +175,7 @@ public class MemberRegistry extends Member{
         }
     }
 
-    public void updateRegistry(String entryID, String name_or_type, String personalNumber_or_length) throws IOException {
+    public void updateRegistry(String entryID, String name_or_type, String personalNumber_or_length) {
         File temp = new File("temp.txt");
         File mainFile = new File("members.txt");
         String line;

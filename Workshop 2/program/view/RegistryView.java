@@ -10,14 +10,14 @@ public class RegistryView {
     MemberRegistry memberRegistry = new MemberRegistry();
     public void getMemberInfo(String input) throws IOException {
 
-        File file = new File("members.txt");
+        File file = new File("members.txt"); //File we will read from
 
 
         Scanner scan = new Scanner(file);
-        while (scan.hasNextLine()) {
+        while (scan.hasNextLine()) {                  //read line for line
             String line = scan.nextLine();
-            String [] entry = line.split(",");
-            if (entry[0].equals(input)) {
+            String [] entry = line.split(" ");
+            if (entry[0].equals(input)) {             //If we find the user print it out
                 printComposeEntry(entry);
             }
         }
@@ -26,14 +26,14 @@ public class RegistryView {
     }
     public void getComposeList() throws IOException {
 
-        File file = new File("members.txt");
+        File file = new File("members.txt");    //File we will read from
         Scanner scan = new Scanner(file);
 
         System.out.println("Compose list of members:");
-        while (scan.hasNextLine()) {
+        while (scan.hasNextLine()) {                    //Read each line
             String line = scan.nextLine();
-            String [] entry = line.split(" ");
-            printComposeEntry(entry);
+            String [] entry = line.split(" ");    //Split as each " "
+            printComposeEntry(entry);                   //Call method for printing
         }
         scan.close();
     }
@@ -42,15 +42,15 @@ public class RegistryView {
 
     }
     public void printComposeEntry(String[] cEntry){
-        System.out.print("Member ID: " +cEntry[0]);
-        System.out.print(", name: " +cEntry[1]);
-        System.out.print(", person number: " +cEntry[2] +"\n");
+        System.out.print("Member ID: " +cEntry[0]);             //Take only the first part of entry and print
+        System.out.print(", name: " +cEntry[1]);                //Take only the second part and print
+        System.out.print(", person number: " +cEntry[2] +"\n"); //Take only the third part and print
     }
     public void printVerboseEntry(String vEntry){
         System.out.println("Comming soon!");
     }
 
-    public void changeMemberRegistryView(String input_id) throws IOException {
+    public void changeMemberRegistryView(String input_id) {
         String uppdatedName, uppdatedPersonalNumber;
         Scanner scan = new Scanner(System.in);
 
@@ -59,9 +59,11 @@ public class RegistryView {
         System.out.print("Set new personal number: ");
         uppdatedPersonalNumber = scan.next();
 
+        //Gets new info from user
+
         memberRegistry.updateRegistry(input_id,uppdatedName,uppdatedPersonalNumber);
     }
-    public void changeBoatRegistryView(String input_id) throws IOException {
+    public void changeBoatRegistryView(String input_id) {
         Boat boat = new Boat();
 
         String uppdatedType, uppdatedLength;
@@ -85,6 +87,9 @@ public class RegistryView {
             System.out.println("\nWrong input! Please try again");
             changeBoatRegistryView(input_id);
         }
+
+        //Gets new info from user
+
         memberRegistry.updateRegistry(input_id,uppdatedType,uppdatedLength);
         sc.close();
     }

@@ -45,8 +45,12 @@ public class Console extends MemberRegistry {
             if (val == 1) {
                 System.out.print("Set name: ");
                 String name = sc.next();
-                System.out.print("Set personal number: ");
+                System.out.print("Set personal number (10 numbers): ");
                 String personalNum = sc.next();
+                while (personalNum.length() != 10 || !mem.checkLetter(personalNum)) { //Check if the input is 10 characters long and if it contains a letter
+                    System.out.println("Wrong input try again");
+                    personalNum = sc.next();
+                }
                 int memberID = mem.idGenerator(); //call for rand id
 
                 memReg.addMember(name, personalNum, memberID); //call for adding the member
@@ -75,7 +79,6 @@ public class Console extends MemberRegistry {
             }
         }
         else if (choice == 2) {
-            System.out.println("You're now in the boat menu:"); //Start of menu
             System.out.println("1. Register Boat\n2. Boat Info\n3. Change Boat\n4. Remove boat");
             val = sc.nextInt();
 
@@ -101,7 +104,7 @@ public class Console extends MemberRegistry {
                     System.out.println("\nWrong input! Please try again");
                     subMenu(2);
                 }
-                System.out.println("To what member do you want ot add the boat to?");
+                System.out.println("To what member do you want to add the boat to?");
                 String owner = sc.next();
 
                 memReg.addBoat(boat.getBoatType(), boat.getBoatLength(), owner);

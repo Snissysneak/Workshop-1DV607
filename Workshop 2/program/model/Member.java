@@ -1,12 +1,11 @@
 package model;
-import java.io.*;
 
-public class Member extends Boat{
+import java.util.Random;
+
+public class Member {
     String name;
     String personalNum;
     int memberID;
-
-    StringBuilder sb; //not in use as of right now
 
     public Member() {
 
@@ -40,6 +39,17 @@ public class Member extends Boat{
     }
 
     public int idGenerator() {
-        return (int)(Math.random() * ((9999 - 1) + 1)) + 1; //random number gen
+        Random rand = new Random();
+        return rand.nextInt(9999 - 1000) + 1000; //random number gen
+    }
+
+    public boolean checkLetter(String input) {
+        boolean isNumber = true;
+        for (int i = 0; i < input.length(); i++) { //Check every char in the input for a letter
+            if (Character.isLetter(input.charAt(i))) {
+                isNumber = false;
+            }
+        }
+        return isNumber;
     }
 }
