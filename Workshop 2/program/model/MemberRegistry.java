@@ -157,11 +157,10 @@ public class MemberRegistry extends Member{
                 String[] entries = line.split("\\s");   //line into array
                 String newLine = "";
 
-                for (int i = 0; i < entries.length; i++)
-                {
+                for (int i = 0; i < entries.length; i++) {
                     String current = entries[i];
-                    if(!current.equals(input)) {        //PrintWrite entries which are different than input
-                        if(!current.isEmpty())
+                    if (!current.equals(input)) {        //PrintWrite entries which are different than input
+                        if (!current.isEmpty())
                             newLine = newLine + current + " ";      //PW entry
 
                         else {
@@ -171,11 +170,55 @@ public class MemberRegistry extends Member{
                     /*If current entry = input --> delete entry + 2 next entries (boat type and length */
                     else {
                         entries[i] = "";
-                        entries[i+1] = "";
-                        entries[i+2] = "";
+                        entries[i + 1] = "";
+                        entries[i + 2] = "";
                     }
+                }
+                pw.println(newLine);
+            }
+            x.close();
+            pw.flush();
+            pw.close();
+            mainFile.delete();
+            File dump = new File("members.txt");
+            temp.renameTo(dump);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-                }System.out.println(newLine);   //for test purpose
+    public void updateRegistry(String entryID, String name_or_type, String personalNumber_or_length) throws IOException {
+        File temp = new File("temp.txt");
+        File mainFile = new File("members.txt");
+        String line;
+        try {
+            FileWriter fw = new FileWriter(temp, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            Scanner x = new Scanner(new File("members.txt"));
+            x.useDelimiter("[,\n]");
+
+            while (x.hasNextLine()) {
+                line = x.nextLine();     //whole line from file
+                if (line.isEmpty())
+                    continue;
+
+                String[] entries = line.split("\\s");   //line into array
+                String newLine = "";
+
+                for (int i = 0; i < entries.length; i++) {
+                    String current = entries[i];
+                    if (!current.equals(entryID)) {        //PrintWrite entries which are different than input
+                        if (!current.isEmpty())
+                            newLine = newLine + current + " ";      //PW entry
+                    }
+                    else {
+                        entries[i] = entryID;
+                        entries[i + 1] = name_or_type;
+                        entries[i + 2] = personalNumber_or_length;
+                        newLine = newLine + entryID + " ";
+                    }
+                }
                 pw.println(newLine);
             }
             x.close();
@@ -185,47 +228,10 @@ public class MemberRegistry extends Member{
             File dump = new File("members.txt");
             temp.renameTo(dump);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void updateRegistry(String rvID, String rvName, String rvPerNum) {
-        File temp = new File("temp.txt");
-        File mainFile = new File("members.txt");
-        String id, name, personalNumber, line;
-        try {
-            FileWriter fw = new FileWriter(temp, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-            Scanner x = new Scanner(new File("members.txt"));
-            x.useDelimiter("[,\n]");
-            Scanner scan = new Scanner(System.in);
-
-            while(x.hasNext()) {
-                id = x.next();
-                name = x.next();
-                personalNumber = x.next();
-                if(id.equals(rvID)) {
-                    pw.println(rvID + "," + rvName + "," + rvPerNum);
-                }
-                else {
-                    pw.println(id + "," + name + "," + personalNumber);
-                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            x.close();
-            pw.flush();
-            pw.close();
-            mainFile.delete();
-            File dump = new File("members.txt");
-            temp.renameTo(dump);
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
-        removeBlankSpaces();
-    }
 
     public void removeBlankSpaces() {
         Scanner file;

@@ -48,13 +48,57 @@ public class RegistryView {
     public void printVerboseEntry(String vEntry){
         System.out.println("Comming soon!");
     }
-    public void changeMember(String input_id){
-        String rv_name, rv_personalNumber;
+
+    public void changeMemberRegistryView(String input_id) throws IOException {
+        String uppdatedName, uppdatedPersonalNumber;
         Scanner scan = new Scanner(System.in);
+
         System.out.print("Set new name: ");
-        rv_name = scan.next();
+        uppdatedName = scan.next();
         System.out.print("Set new personal number: ");
-        rv_personalNumber = scan.next();
-        memberRegistry.updateRegistry(input_id,rv_name,rv_personalNumber);
+        uppdatedPersonalNumber = scan.next();
+
+        memberRegistry.updateRegistry(input_id,uppdatedName,uppdatedPersonalNumber);
     }
+    public void changeBoatRegistryView(String input_id) throws IOException {
+        String uppdatedType, uppdatedLength;
+        int length;
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("1 - Sailboat, 2 - Motorsailer, 3 - Kayak/Canoe, 4 - Other");
+        System.out.print("Choose new type: ");
+        uppdatedType = scan.next();
+        try{
+            uppdatedType = boatTypeCheck(uppdatedType);
+        }catch (NumberFormatException ex) {
+            System.out.println("\nWrong input! Please try again");
+            changeBoatRegistryView(input_id);
+        }
+        System.out.print("Set new length: ");
+        uppdatedLength = scan.next();
+        try{
+            length = Integer.parseInt(uppdatedLength);
+        }catch (NumberFormatException ex) {
+            System.out.println("\nWrong input! Please try again");
+            changeBoatRegistryView(input_id);
+        }
+        memberRegistry.updateRegistry(input_id,uppdatedType,uppdatedLength);
+
+    }
+    public String boatTypeCheck(String inType) throws NumberFormatException{
+
+        if (inType.equals("1"))
+            return "Sailboat";
+        else if (inType.equals("2"))
+            return  "Motorsailer";
+        else if (inType.equals("3"))
+            return  "Kayak/Canoe";
+        else if (inType.equals("4"))
+            return  "Other";
+        else {
+            throw new NumberFormatException();
+        }
+    }
+
+
 }

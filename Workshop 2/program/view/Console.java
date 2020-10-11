@@ -57,9 +57,9 @@ public class Console extends MemberRegistry {
                 list.getMemberInfo(id);
             }
             else if (val == 3) {
-                System.out.print("Chose member id for the member you want to change: ");
+                System.out.print("Give id of the member you want to change: ");
                 String id = sc.next();
-                list.changeMember(id);
+                list.changeMemberRegistryView(id);
                 System.out.println("Member succesfully changed");
 
             }
@@ -94,7 +94,10 @@ public class Console extends MemberRegistry {
                 System.out.println("Boat info!");
             }
             else if (val == 3) {
-                System.out.println("Change boat!");
+                System.out.print("Give id of the boat you want to change: ");
+                String id = sc.next();
+                list.changeBoatRegistryView(id);
+                System.out.println("Boat succesfully changed");
             }
             else if (val == 4) {
                 System.out.println("What boat do you want ot remove? (enter boat ID)");
