@@ -15,11 +15,11 @@ public class Console extends MemberRegistry {
     * */
 
     static void mainMenu() throws IOException {
-        Scanner sc = new Scanner(System.in); //Implement scanner
+        Scanner scanner = new Scanner(System.in); //Implement scanner
 
         System.out.println("Welcome to main menu"); //Start of menu
         System.out.println("1. Member\n2. Boat\n3. List");
-        int choice = sc.nextInt();
+        int choice = scanner.nextInt();
         subMenu(choice);
     }
 
@@ -158,11 +158,12 @@ public class Console extends MemberRegistry {
             mainMenu();
         }
         else if (value == 2) {
-            sc.close();
+
         }
         else {
             System.out.println("This value is not valid");
         }
+
     }
     public static void main (String[] args) throws IOException {
         mainMenu(); //Starts off the program by calling the method mainMenu.
