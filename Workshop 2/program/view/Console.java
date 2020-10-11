@@ -1,4 +1,5 @@
 package view;
+import model.Boat;
 import model.Member;
 import model.MemberRegistry;
 import java.io.IOException;
@@ -81,14 +82,23 @@ public class Console extends MemberRegistry {
             //Here we make our choices for boat
 
             if (val == 1) {
-                System.out.println("Enter boat type");
+                Boat boat = new Boat();
+                System.out.println("1 - Sailboat, 2 - Motorsailer, 3 - Kayak/Canoe, 4 - Other");
+                System.out.print("Choose new type: ");
                 String type = sc.next();
+                try{
+                    boat.setBoatType(type);
+                }catch (NumberFormatException ex) {
+                    System.out.println("\nWrong input! Please try again");
+                    subMenu(2);
+                }
+
                 System.out.println("Enter boat length");
                 int length = sc.nextInt();
                 System.out.println("To what member do you want ot add the boat to?");
                 String owner = sc.next();
 
-                memReg.addBoat(type, length, owner);
+                memReg.addBoat(boat.getBoatType(), length, owner);
             }
             else if (val == 2) {
                 System.out.println("Boat info!");

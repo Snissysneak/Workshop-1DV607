@@ -25,8 +25,19 @@ public class Boat{
         return boatType;
     }
 
-    public void setBoatType(String boatType) {
-        this.boatType = boatType;
+    public void setBoatType(String boatType)throws NumberFormatException{
+
+        if (boatType.equals("1"))
+            this.boatType = "Sailboat";
+        else if (boatType.equals("2"))
+            this.boatType = "Motorsailer";
+        else if (boatType.equals("3"))
+            this.boatType = "Kayak/Canoe";
+        else if (boatType.equals("4"))
+            this.boatType = "Other";
+        else {
+            throw new NumberFormatException();
+        }
     }
 
     public int getBoatLength() {
@@ -36,4 +47,6 @@ public class Boat{
     public void setBoatLength(int boatLength) {
         this.boatLength = boatLength;
     }
+
+
 }

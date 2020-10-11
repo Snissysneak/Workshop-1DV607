@@ -1,4 +1,5 @@
 package view;
+import model.Boat;
 import model.MemberRegistry;
 
 import java.io.File;
@@ -61,44 +62,31 @@ public class RegistryView {
         memberRegistry.updateRegistry(input_id,uppdatedName,uppdatedPersonalNumber);
     }
     public void changeBoatRegistryView(String input_id) throws IOException {
+        Boat boat = new Boat();
+
         String uppdatedType, uppdatedLength;
-        int length;
-        Scanner scan = new Scanner(System.in);
+
+        Scanner sc = new Scanner(System.in);
 
         System.out.println("1 - Sailboat, 2 - Motorsailer, 3 - Kayak/Canoe, 4 - Other");
         System.out.print("Choose new type: ");
-        uppdatedType = scan.next();
+        uppdatedType = sc.next();
         try{
-            uppdatedType = boatTypeCheck(uppdatedType);
+            boat.setBoatType(uppdatedType);
         }catch (NumberFormatException ex) {
             System.out.println("\nWrong input! Please try again");
             changeBoatRegistryView(input_id);
         }
         System.out.print("Set new length: ");
-        uppdatedLength = scan.next();
+        uppdatedLength = sc.next();
         try{
-            length = Integer.parseInt(uppdatedLength);
+            Integer.parseInt(uppdatedLength);
         }catch (NumberFormatException ex) {
             System.out.println("\nWrong input! Please try again");
             changeBoatRegistryView(input_id);
         }
         memberRegistry.updateRegistry(input_id,uppdatedType,uppdatedLength);
-
+        sc.close();
     }
-    public String boatTypeCheck(String inType) throws NumberFormatException{
-
-        if (inType.equals("1"))
-            return "Sailboat";
-        else if (inType.equals("2"))
-            return  "Motorsailer";
-        else if (inType.equals("3"))
-            return  "Kayak/Canoe";
-        else if (inType.equals("4"))
-            return  "Other";
-        else {
-            throw new NumberFormatException();
-        }
-    }
-
 
 }
