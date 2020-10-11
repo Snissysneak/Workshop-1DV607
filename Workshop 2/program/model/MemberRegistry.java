@@ -233,33 +233,4 @@ public class MemberRegistry extends Member{
             }
         }
 
-    public void removeBlankSpaces() {
-        Scanner file;
-        PrintWriter writer;
-
-        try {
-
-            file = new Scanner(new File("members.txt"));
-            writer = new PrintWriter("members2.txt");
-
-            while (file.hasNext()) {
-                String line = file.nextLine();
-                if (!line.isEmpty()) {
-                    writer.write(line);
-                    writer.write("\n");
-                }
-            }
-
-            file.close();
-            writer.close();
-
-        } catch (FileNotFoundException ex) {
-            System.out.println("File not found");
-        }
-        File file1 = new File("members.txt");
-        File file2 = new File("members2.txt");
-
-        file1.delete();
-        file2.renameTo(file1);
-    }
 }

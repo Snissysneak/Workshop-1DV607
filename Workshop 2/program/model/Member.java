@@ -29,9 +29,7 @@ public class Member extends Boat{
         return personalNum;
     }
 
-    public void setPersonalNum(String personalNum) {
-        this.personalNum = personalNum;
-    }
+    public void setPersonalNum(String personalNum) {this.personalNum = personalNum; }
 
     public int getMemberID() {
         return memberID;

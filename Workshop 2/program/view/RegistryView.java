@@ -32,7 +32,7 @@ public class RegistryView {
         System.out.println("Compose list of members:");
         while (scan.hasNextLine()) {
             String line = scan.nextLine();
-            String [] entry = line.split(",");
+            String [] entry = line.split(" ");
             printComposeEntry(entry);
         }
         scan.close();

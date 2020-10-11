@@ -80,11 +80,10 @@ public class Console extends MemberRegistry {
             val = sc.nextInt();
 
             //Here we make our choices for boat
-
             if (val == 1) {
                 Boat boat = new Boat();
                 System.out.println("1 - Sailboat, 2 - Motorsailer, 3 - Kayak/Canoe, 4 - Other");
-                System.out.print("Choose new type: ");
+                System.out.print("Choose type: ");
                 String type = sc.next();
                 try{
                     boat.setBoatType(type);
@@ -94,11 +93,18 @@ public class Console extends MemberRegistry {
                 }
 
                 System.out.println("Enter boat length");
-                int length = sc.nextInt();
+                String input = sc.next();
+                try{
+                    int length = Integer.parseInt(input);
+                    boat.setBoatLength(length);
+                }catch (NumberFormatException ex) {
+                    System.out.println("\nWrong input! Please try again");
+                    subMenu(2);
+                }
                 System.out.println("To what member do you want ot add the boat to?");
                 String owner = sc.next();
 
-                memReg.addBoat(boat.getBoatType(), length, owner);
+                memReg.addBoat(boat.getBoatType(), boat.getBoatLength(), owner);
             }
             else if (val == 2) {
                 System.out.println("Boat info!");
