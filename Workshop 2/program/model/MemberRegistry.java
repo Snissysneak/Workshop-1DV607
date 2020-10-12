@@ -76,7 +76,6 @@ public class MemberRegistry {
             e.printStackTrace();
         }
     }
-
     public void addBoat(String boatType, int boatLength, String input) {
         Member mem = new Member(); //Call for member class to access idGenerator()
         int boatID = mem.idGenerator();
@@ -219,6 +218,16 @@ public class MemberRegistry {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        /* Counting boats for member given in input */
+        public int getNumberOfBoats(String [] input) throws FileNotFoundException {
+            int numberOfBoats = 0;
+            for (int i=3; i < input.length; i++ ){
+                    if (i%3 == 0){
+                        numberOfBoats++;
+                    }
+                }
+        return numberOfBoats;
         }
 
 }

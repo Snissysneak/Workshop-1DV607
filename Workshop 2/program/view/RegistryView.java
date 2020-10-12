@@ -62,10 +62,12 @@ public class RegistryView {
         }
         scan.close();
     }
-    public void printMember(String[] entry){
+    public void printMember(String[] entry) throws FileNotFoundException {
+        int boats = memberRegistry.getNumberOfBoats(entry);
+        String boatsStr = Integer.toString(boats);
         System.out.print("Member ID: " +entry[0]);             //Take only the first part of entry and print
         System.out.print(", name: " +entry[1]);                //Take only the second part and print
-        System.out.print(", person number: " +entry[2] +"\n"); //Take only the third part and print
+        System.out.print(", owned boats: " +boatsStr +"\n"); //Take only the third part and print
     }
     public void printBoat(String id, String type, String length){
         System.out.println("    BoatID: " + id + ", boat type: " + type + ", boat length: " + length);
@@ -107,11 +109,8 @@ public class RegistryView {
             System.out.println("\nWrong input! Please try again");
             changeBoatRegistryView(input_id);
         }
-
         //Gets new info from user
-
         memberRegistry.updateRegistry(input_id,boat.getBoatType(),uppdatedLength);
-
     }
 
 }

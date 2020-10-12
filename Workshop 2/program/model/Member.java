@@ -3,9 +3,9 @@ package model;
 import java.util.Random;
 
 public class Member {
-    String name;
-    String personalNum;
-    int memberID;
+    private String name;
+    private String personalNum;
+    private int memberID;
 
     public Member() {
 
@@ -14,6 +14,7 @@ public class Member {
         this.name = name;
         this.personalNum = personalNum;
         this.memberID = memberID;
+
     }
 
     public String getName() {
