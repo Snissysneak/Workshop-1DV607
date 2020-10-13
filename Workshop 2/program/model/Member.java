@@ -10,10 +10,10 @@ public class Member {
     public Member() {
 
     }
-    public Member(String name, String personalNum, int memberID) {
-        this.name = name;
-        this.personalNum = personalNum;
-        this.memberID = memberID;
+    public Member(String m_name, String m_personalNum, int m_memberID) {
+        this.name = m_name;
+        this.personalNum = m_personalNum;
+        this.memberID = m_memberID;
 
     }
 
@@ -53,4 +53,5 @@ public class Member {
         }
         return isNumber;
     }
+
 }

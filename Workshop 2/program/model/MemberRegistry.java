@@ -1,233 +1,175 @@
 package model;
+
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+
 
 public class MemberRegistry {
     Member member;
 
     public MemberRegistry() {
-
     }
 
     public MemberRegistry(Member member) {
         this.member = member;
     }
 
+    /*Add new entry member to the file. New entry contains memberID, name and person number*/
     public void addMember(String name, String personalNum, int memberID) {
         member = new Member(name, personalNum, memberID); //create a new member for usage in updating the txt file
-        try {
-            String str = member.getMemberID() + " " + member.getName() + " " + member.getPersonalNum();   //The content we want to add.
+        ArrayList<String[]> db = readDatabase();
+        String[] newRecord = new String[3];
 
-            FileWriter fstream = new FileWriter("members.txt",true);    //Use FileWriter to create file and BufferedWriter so we don't overwrite the file with new content.
-            BufferedWriter out = new BufferedWriter(fstream);
-            out.write(str + "\n");
-            out.close();    //Close BufferedWriter
+        newRecord[0] = Integer.toString(member.getMemberID());
+        newRecord[1] = member.getName();
+        newRecord[2] = member.getPersonalNum();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        db.add(newRecord);
+        writeDatabase(db);
     }
-
-    public void deleteMember(String input) {
-        File temp = new File("temp.txt");
-        File mainFile = new File("members.txt");
-        try {
-            FileWriter fw = new FileWriter(temp, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-            Scanner x = new Scanner(new File("members.txt"));
-            x.useDelimiter("[,\n]");
-
-            while (x.hasNextLine()) {
-                String line = x.nextLine();     //whole line from file
-                if (line.isEmpty())
-                    continue;
-
-                String[] entries = line.split("\\s");   //line into array
-                String newLine = "";
-                if(!entries[0].equals(input)){
-                    for (int i = 0; i < entries.length; i++)
-                    {
-                        String current = entries[i];
-                        if(!current.equals(input)) {        //PrintWrite entries which are different than input
-                            if(!current.isEmpty())
-                                newLine = newLine + current + " ";      //PW entry
-
-                            else {
-                                continue;
-                            }
-                        }
-
-                    }System.out.println(newLine);   //for test purpose
-                }
-                else {      //when memberID equals input do nothing
-                    continue;
-                }
-                pw.println(newLine);
+    /*Change members info in the record  and write to the file */
+    public void changeMember(String newName, String newPersonNumber, String memberID) {
+        ArrayList<String[]> db = readDatabase();
+        int index = 0;
+        for (String[] sourceRecord : db) {
+            if (sourceRecord[0].equals(memberID)) {
+                sourceRecord[1] = newName;
+                sourceRecord[2] = newPersonNumber;
             }
-            x.close();
-            pw.flush();
-            pw.close();
-            mainFile.delete();
-            File dump = new File("members.txt");
-            temp.renameTo(dump);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            index++;
         }
+        writeDatabase(db);
     }
-    public void addBoat(String boatType, int boatLength, String input) {
-        Member mem = new Member(); //Call for member class to access idGenerator()
+    /*Removes members record from the file */
+    public void deleteMember(String memberID) {
+        ArrayList<String[]> db = readDatabase();
+
+        for (String[] record : db) {
+            if (record[0].equals(memberID)) {
+                db.remove(record);
+            }
+        }
+        writeDatabase(db);
+    }
+    /*Add Boat to file */
+    public void addBoat(String boatType, int boatLength, String ownerID) {
+        Member mem = new Member();
         int boatID = mem.idGenerator();
 
-        Boat newBoat = new Boat(boatID, boatType, boatLength);
+        ArrayList<String[]> db = readDatabase();
+        int index = 0;
+        for (int i = 0; i < db.size(); i++) {
+            String[] sourceRecord = db.get(i);
+            if (sourceRecord[0].equals(ownerID)) {
+                db.remove(index);
+                String[] record = Arrays.copyOf(sourceRecord, sourceRecord.length + 3);
 
-        try{
-            File temp = new File("temp.txt"); //Creat temporary file to write to
+                record[sourceRecord.length] = Integer.toString(boatID);
+                record[sourceRecord.length + 1] = boatType;
+                record[sourceRecord.length + 2] = Integer.toString(boatLength);
 
-            FileWriter fw = new FileWriter(temp, false);
-            FileInputStream fStream = new FileInputStream("members.txt");
-            DataInputStream in = new DataInputStream(fStream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
-            String strLine;
-
-            while ((strLine = br.readLine()) != null)   {
-                if(strLine.contains(input)) { //If the member is in the current line we want to add the boat at the end
-                    fw.append(strLine + " " + newBoat.getBoatID() + " " + newBoat.getBoatType() + " " + newBoat.getBoatLength());
-                }
-                else {
-                    fw.append(strLine); //Else we just want to get the normal line
-                }
-                fw.append("\n");
+                db.add(index, record);
+                String[] temp2 = db.get(index);
             }
-            fw.close();
-            in.close();
-
-            File original = new File("members.txt"); //Now we want to read from the temporary file to the original file
-
-            FileWriter fileWriter = new FileWriter(original, false);
-            FileInputStream fileStream = new FileInputStream("temp.txt");
-            DataInputStream inData = new DataInputStream(fileStream);
-            BufferedReader bReader = new BufferedReader(new InputStreamReader(inData));
-
-            String stringLine;
-
-            while ((stringLine = bReader.readLine()) != null)   { //Line for line add to the original file
-                fileWriter.append(stringLine + "\n");
-            }
-            fileWriter.close();
-            inData.close();
-
-            temp.delete(); //delete the temporary file
-        }catch (Exception e){
-            System.err.println("Error: " + e.getMessage());
+            index++;
         }
+        writeDatabase(db);
     }
-
+    /*Change members info in the record  and write to the file */
+    public void changeBoat(String boatID, String newBoatType, String newLength) {
+        ArrayList<String[]> db = readDatabase();
+        for (String[] sourceRecord : db) {
+            for (int i = 0; i < sourceRecord.length; i++) {
+                if (sourceRecord[i].equals(boatID)) {
+                    sourceRecord[i + 1] = newBoatType;
+                    sourceRecord[i + 2] = newLength;
+                }
+            }
+        }
+        writeDatabase(db);
+    }
+    /*Delete boat from file */
     public void deleteBoat(String input) {
+        ArrayList<String[]> db = readDatabase();
 
+        for (String[] record : db) {
+            for (int i = 0; i < record.length; i++) {
+                if (record[i].equals(input)) {
+                    if (!record[i].isEmpty())
+                        record[i] = "";
+                    record[i + 1] = "";
+                    record[i + 2] = "";
+                }
+            }
+        }
+        writeDatabase(db);
+    }
+    /* Counting boats for member given in input */
+    public int getNumberOfBoats(String[] input) throws FileNotFoundException {
+        int numberOfBoats = 0;
+        for (int i = 3; i < input.length; i++) {
+            if (i % 3 == 0) {
+                numberOfBoats++;
+            }
+        }
+        return numberOfBoats;
+    }
+    /* Write content of ArrayList in file */
+    public void writeDatabase(ArrayList<String[]> database) {
         File temp = new File("temp.txt");
         File mainFile = new File("members.txt");
         try {
             FileWriter fw = new FileWriter(temp, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
-            Scanner x = new Scanner(new File("members.txt"));
-            x.useDelimiter("[,\n]");
 
-            while (x.hasNextLine()) {
-                String line = x.nextLine();     //whole line from file
-                if (line.isEmpty())
-                    continue;
-
-                String[] entries = line.split("\\s");   //line into array
+            for (String[] record : database) {
                 String newLine = "";
-
-                for (int i = 0; i < entries.length; i++) {
-                    String current = entries[i];
-                    if (!current.equals(input)) {        //PrintWrite entries which are different than input
-                        if (!current.isEmpty())
-                            newLine = newLine + current + " ";      //PW entry
-
-                        else {
-                            continue;
-                        }
-                    }
-                    /*If current entry = input --> delete entry + 2 next entries (boat type and length */
-                    else {
-                        entries[i] = "";
-                        entries[i + 1] = "";
-                        entries[i + 2] = "";
-                    }
+                for (int i = 0; i < record.length; i++) {
+                    String entry = record[i];
+                    if (!entry.isEmpty())
+                        newLine = newLine + entry + " ";
+                    else
+                        continue;
                 }
                 pw.println(newLine);
             }
-            x.close();
             pw.flush();
             pw.close();
             mainFile.delete();
             File dump = new File("members.txt");
             temp.renameTo(dump);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    public void updateRegistry(String entryID, String name_or_type, String personalNumber_or_length) {
-        File temp = new File("temp.txt");
-        File mainFile = new File("members.txt");
+    /* Read content of file and save in ArrayList */
+    public ArrayList<String[]> readDatabase() {
+        int i = 0;
         String line;
+        ArrayList<String[]> entries = new ArrayList<>();
         try {
-            FileWriter fw = new FileWriter(temp, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
             Scanner x = new Scanner(new File("members.txt"));
             x.useDelimiter("[,\n]");
 
             while (x.hasNextLine()) {
                 line = x.nextLine();     //whole line from file
+                String[] lineArray = line.split("\\s");   //line into array
+                if (!line.isEmpty()) {
+                    entries.add(lineArray);
+                    i++;
+                }
                 if (line.isEmpty())
                     continue;
-
-                String[] entries = line.split("\\s");   //line into array
-                String newLine = "";
-
-                for (int i = 0; i < entries.length; i++) {
-                    String current = entries[i];
-                    if (!current.equals(entryID)) {        //PrintWrite entries which are different than input
-                        if (!current.isEmpty())
-                            newLine = newLine + current + " ";      //PW entry
-                    }
-                    else {
-                        entries[i] = entryID;
-                        entries[i + 1] = name_or_type;
-                        entries[i + 2] = personalNumber_or_length;
-                        newLine = newLine + entryID + " ";
-                    }
-                }
-                pw.println(newLine);
             }
             x.close();
-            pw.flush();
-            pw.close();
-            mainFile.delete();
-            File dump = new File("members.txt");
-            temp.renameTo(dump);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        /* Counting boats for member given in input */
-        public int getNumberOfBoats(String [] input) throws FileNotFoundException {
-            int numberOfBoats = 0;
-            for (int i=3; i < input.length; i++ ){
-                    if (i%3 == 0){
-                        numberOfBoats++;
-                    }
-                }
-        return numberOfBoats;
-        }
-
+        return entries;
+    }
 }
+

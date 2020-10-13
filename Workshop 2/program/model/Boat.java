@@ -1,8 +1,8 @@
 package model;
 public class Boat{
-    int boatID;
-    String boatType;
-    int boatLength;
+    private int boatID;
+    private String boatType;
+    private int boatLength;
 
     public Boat() {
 
