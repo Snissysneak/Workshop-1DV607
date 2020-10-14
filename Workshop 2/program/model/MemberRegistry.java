@@ -46,18 +46,11 @@ public class MemberRegistry {
     public void deleteMember(String memberID) {
         ArrayList<String[]> db = readDatabase();
 
-        for (String[] record : db) {
-            if (record[0].equals(memberID)) {
-                db.remove(record);
-            }
-        }
+        db.removeIf(record -> record[0].equals(memberID));
         writeDatabase(db);
     }
     /*Add Boat to file */
-    public void addBoat(String boatType, int boatLength, String ownerID) {
-        Member mem = new Member();
-        int boatID = mem.idGenerator();
-
+    public void addBoat(int boatID, String boatType, int boatLength, String ownerID) {
         ArrayList<String[]> db = readDatabase();
         int index = 0;
         for (int i = 0; i < db.size(); i++) {
@@ -170,6 +163,17 @@ public class MemberRegistry {
             e.printStackTrace();
         }
         return entries;
+    }
+    /*Returns true if input already in the file */
+    public boolean existInFile(String input){
+        ArrayList<String[]> db = readDatabase();
+        for (String[] record : db) {
+            for (String s : record) {
+                if (s.equals(input))
+                    return true;
+            }
+        }
+        return false;
     }
 }
 

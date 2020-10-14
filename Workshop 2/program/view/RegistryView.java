@@ -111,28 +111,33 @@ public class RegistryView {
         }
         memberRegistry.changeBoat(boatID,boat.getBoatType(),uppdatedLength);
     }
-
-    /* Check if memberID is already in file */
+    /*Returns true when memberID is already in file */
     public boolean verifyID(String memberID) {
-        ArrayList<String[]> db = memberRegistry.readDatabase();
-        for (String[] record : db) {
-            if (record[0].equals(memberID))
-                return true;
+        if (memberRegistry.existInFile(memberID)) {
+            return true;
         }
-        System.out.print("No such member! Please try again: ");
-        return false;
+        else{
+            System.out.print("No such member! Please try again: ");
+            return false;
+        }
     }
-
-    /* Check if boatID is already in file */
+    /*Returns true when boatID is already in file */
     public boolean verifyBoatID(String boatID) {
-        ArrayList<String[]> db = memberRegistry.readDatabase();
-        for (String[] record : db) {
-            for (String s : record) {
-                if (s.equals(boatID))
-                    return true;
-            }
+        if (memberRegistry.existInFile(boatID)) {
+            return true;
         }
-        System.out.print("No such boat! Please try again: ");
-        return false;
+        else{
+            System.out.print("No such boat! Please try again: ");
+            return false;
+        }
+    }
+    /*Returns true when input is already in file */
+    public boolean personNumberAlreadyExist(String input){
+        if (memberRegistry.existInFile(input)) {
+            System.out.println("Person number: " + input + " already exist in database");
+            return false;
+        }
+        else
+            return true;
     }
 }

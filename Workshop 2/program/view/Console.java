@@ -39,62 +39,86 @@ public class Console extends MemberRegistry {
         Scanner sc = new Scanner(System.in); //Implement scanner
         int val;
 
+        //SubMenu Member
         if (choice == 1) {
             System.out.println("You're now in the member menu:"); //Start of menu
             System.out.println("1. Create Member\n2. Member Info\n3. Change member\n4. Remove member\n");
             val = sc.nextInt();
 
-            //Here we make our choices for member
-
+            //Create member
             if (val == 1) {
                 System.out.print("Set name: ");
                 String name = sc.next();
                 System.out.print("Set personal number (10 numbers): ");
                 String personalNum = sc.next();
-                while (personalNum.length() != 10 || !mem.checkLetter(personalNum)) { //Check if the input is 10 characters long and if it contains a letter
+
+                //Check if the input is 10 characters long and if it contains a letter
+                while (personalNum.length() != 10 || !mem.checkLetter(personalNum)) {
                     System.out.println("Wrong input try again");
                     personalNum = sc.next();
                 }
+                //Check if the input already exist in the file
+                while (!registryView.personNumberAlreadyExist(personalNum)) {
+                    personalNum = sc.next();
+                }
                 int memberID = mem.idGenerator(); //call for rand id
+                String memberIDstring = Integer.toString(memberID);
+                while (memberRegistry.existInFile(memberIDstring)){
+                    memberID = mem.idGenerator(); //call for rand id
+                    memberIDstring = Integer.toString(memberID);
+                }
+                System.out.println("Generated ID for this member: " +memberIDstring);
 
                 memberRegistry.addMember(name, personalNum, memberID); //call for adding the member
                 System.out.println("Member succesfully created");
-            } else if (val == 2) {
+            }
+            //Member Info
+            else if (val == 2) {
                 System.out.print("Give id of the member you want to check: ");
-
+                //Verify given ID
                 String id = sc.next();
                 while (!registryView.verifyID(id)) {
                     id = sc.next();
                 }
                 registryView.getMemberInfo(id);
 
-            } else if (val == 3) {
+            }
+            //Change member
+            else if (val == 3) {
                 System.out.print("Give id of the member you want to change: ");
                 String id = sc.next();
+                //Verify given ID
                 while (!registryView.verifyID(id)) {
                     id = sc.next();
                 }
                 registryView.changeMemberRegistryView(id);
                 System.out.println("Member succesfully changed");
 
-            } else if (val == 4) {
+            }
+            //Remove member
+            else if (val == 4) {
                 System.out.print("Give id of the member you want to delete: ");
                 String id = sc.next();
+                //Verify given ID
                 while (!registryView.verifyID(id)) {
                     id = sc.next();
                 }
                 memberRegistry.deleteMember(id);
                 System.out.println("Member removed!");
-            } else {
+            }
+            //Invalid input
+            else {
                 System.out.println("This value is not valid");
             }
 
 
-        } else if (choice == 2) {
+        }
+        //SubMenu Boat
+        else if (choice == 2) {
             System.out.println("1. Register Boat\n2. Boat Info\n3. Change Boat\n4. Remove boat");
             val = sc.nextInt();
 
-            //Here we make our choices for boat
+            //Register Boat
             if (val == 1) {
                 Boat boat = new Boat();
                 System.out.println("1 - Sailboat, 2 - Motorsailer, 3 - Kayak/Canoe, 4 - Other");
@@ -108,6 +132,7 @@ public class Console extends MemberRegistry {
                 }
                 System.out.println("Enter boat length");
                 String input = sc.next();
+                //Check if length is Integer
                 try {
                     int length = Integer.parseInt(input);
                     boat.setBoatLength(length);
@@ -118,50 +143,77 @@ public class Console extends MemberRegistry {
                 System.out.println("To what member do you want to add the boat to?");
                 String owner = sc.next();
 
-                memberRegistry.addBoat(boat.getBoatType(), boat.getBoatLength(), owner);
-            } else if (val == 2) {
+                int boatID = mem.idGenerator();
+                String boatIDstring = Integer.toString(boatID);
+                //Check if the input already exist in the file
+                while (memberRegistry.existInFile(boatIDstring)){
+                    boatID = mem.idGenerator(); //call for rand id
+                    boatIDstring = Integer.toString(boatID);
+                }
+                System.out.println("Generated ID for this boat: " +boatIDstring);
+
+                memberRegistry.addBoat(boatID,boat.getBoatType(), boat.getBoatLength(), owner);
+            }
+            //Boat info
+            else if (val == 2) {
                 System.out.print("Give id of the boat you want to check: ");
                 String id = sc.next();
+                //Verify given ID
                 while (!registryView.verifyBoatID(id)) {
                     id = sc.next();
                 }
                 registryView.getBoatInfo(id);
 
-            } else if (val == 3) {
+            }
+            //Change boat
+            else if (val == 3) {
                 System.out.print("Give id of the boat you want to change: ");
                 String id = sc.next();
+                //Verify given ID
                 while (!registryView.verifyBoatID(id)) {
                     id = sc.next();
                 }
                 registryView.changeBoatRegistryView(id);
                 System.out.println("Boat succesfully changed");
-            } else if (val == 4) {
+            }
+            //Remove boat
+            else if (val == 4) {
                 System.out.println("What boat do you want to remove? (enter boat ID)");
                 String id = sc.next();
+                //Verify given ID
                 while (!registryView.verifyBoatID(id)) {
                     id = sc.next();
                 }
                 memberRegistry.deleteBoat(id);
-            } else {
+            }
+            //Invalid input
+            else {
                 System.out.println("This value is not valid");
             }
-        } else if (choice == 3) { //Start of menu
+        }
+        //SubMenu List
+        else if (choice == 3) { //Start of menu
             System.out.println("You're now in the list menu:");
             System.out.println("1. Get verbose list\n2. Get compose list\n");
             val = sc.nextInt();
 
-            //Here we make our choices for lists
-
+            //Verbose list
             if (val == 1) {
                 System.out.println("Verbose list of the club members:");
                 registryView.getVerboseList();
-            } else if (val == 2) {
+            }
+            //Compose list
+            else if (val == 2) {
                 System.out.println("Compose list of the club members:");
                 registryView.getComposeList();
-            } else {
+            }
+            //Invalid input
+            else {
                 System.out.println("This value is not valid");
             }
-        } else {
+        }
+        //Invalid input in MainMenu
+        else {
             System.out.println("This value is not valid");
         }
 
@@ -173,7 +225,7 @@ public class Console extends MemberRegistry {
         }
 
     }
-
+    /*Main method to start a program*/
     public static void main(String[] args) throws IOException {
         Console console = new Console();
         console.mainMenu(); //Starts off the program by calling the method mainMenu.
