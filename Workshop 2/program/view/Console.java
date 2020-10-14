@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Console extends MemberRegistry {
-    private final RegistryView registryView = new RegistryView();
+    private final RegistryView c_registryView = new RegistryView();
+    private MemberRegistry c_memberRegistry = new MemberRegistry();
+    private final Member c_member = new Member();
 
     /*
      * This is the head menu where we make our first choices.
@@ -33,9 +35,7 @@ public class Console extends MemberRegistry {
      * */
 
     public void subMenu(int choice) throws IOException {
-        MemberRegistry memberRegistry = new MemberRegistry();
-        RegistryView registryView = new RegistryView();
-        Member mem = new Member();
+
         Scanner sc = new Scanner(System.in); //Implement scanner
         int val;
 
@@ -53,23 +53,23 @@ public class Console extends MemberRegistry {
                 String personalNum = sc.next();
 
                 //Check if the input is 10 characters long and if it contains a letter
-                while (personalNum.length() != 10 || !mem.checkLetter(personalNum)) {
+                while (personalNum.length() != 10 || !c_member.checkLetter(personalNum)) {
                     System.out.println("Wrong input try again");
                     personalNum = sc.next();
                 }
                 //Check if the input already exist in the file
-                while (!registryView.personNumberAlreadyExist(personalNum)) {
+                while (!c_registryView.personNumberAlreadyExist(personalNum)) {
                     personalNum = sc.next();
                 }
-                int memberID = mem.idGenerator(); //call for rand id
+                int memberID = c_member.idGenerator(); //call for rand id
                 String memberIDstring = Integer.toString(memberID);
-                while (memberRegistry.existInFile(memberIDstring)){
-                    memberID = mem.idGenerator(); //call for rand id
+                while (c_memberRegistry.existInFile(memberIDstring)){
+                    memberID = c_member.idGenerator(); //call for rand id
                     memberIDstring = Integer.toString(memberID);
                 }
                 System.out.println("Generated ID for this member: " +memberIDstring);
 
-                memberRegistry.addMember(name, personalNum, memberID); //call for adding the member
+                c_memberRegistry.addMember(name, personalNum, memberID); //call for adding the member
                 System.out.println("Member succesfully created");
             }
             //Member Info
@@ -77,10 +77,10 @@ public class Console extends MemberRegistry {
                 System.out.print("Give id of the member you want to check: ");
                 //Verify given ID
                 String id = sc.next();
-                while (!registryView.verifyID(id)) {
+                while (!c_registryView.verifyID(id)) {
                     id = sc.next();
                 }
-                registryView.getMemberInfo(id);
+                c_registryView.getMemberInfo(id);
 
             }
             //Change member
@@ -88,10 +88,10 @@ public class Console extends MemberRegistry {
                 System.out.print("Give id of the member you want to change: ");
                 String id = sc.next();
                 //Verify given ID
-                while (!registryView.verifyID(id)) {
+                while (!c_registryView.verifyID(id)) {
                     id = sc.next();
                 }
-                registryView.changeMemberRegistryView(id);
+                c_registryView.changeMemberRegistryView(id);
                 System.out.println("Member succesfully changed");
 
             }
@@ -100,10 +100,10 @@ public class Console extends MemberRegistry {
                 System.out.print("Give id of the member you want to delete: ");
                 String id = sc.next();
                 //Verify given ID
-                while (!registryView.verifyID(id)) {
+                while (!c_registryView.verifyID(id)) {
                     id = sc.next();
                 }
-                memberRegistry.deleteMember(id);
+                c_memberRegistry.deleteMember(id);
                 System.out.println("Member removed!");
             }
             //Invalid input
@@ -143,26 +143,26 @@ public class Console extends MemberRegistry {
                 System.out.println("To what member do you want to add the boat to?");
                 String owner = sc.next();
 
-                int boatID = mem.idGenerator();
+                int boatID = c_member.idGenerator();
                 String boatIDstring = Integer.toString(boatID);
                 //Check if the input already exist in the file
-                while (memberRegistry.existInFile(boatIDstring)){
-                    boatID = mem.idGenerator(); //call for rand id
+                while (c_memberRegistry.existInFile(boatIDstring)){
+                    boatID = c_member.idGenerator(); //call for rand id
                     boatIDstring = Integer.toString(boatID);
                 }
                 System.out.println("Generated ID for this boat: " +boatIDstring);
 
-                memberRegistry.addBoat(boatID,boat.getBoatType(), boat.getBoatLength(), owner);
+                c_memberRegistry.addBoat(boatID,boat.getBoatType(), boat.getBoatLength(), owner);
             }
             //Boat info
             else if (val == 2) {
                 System.out.print("Give id of the boat you want to check: ");
                 String id = sc.next();
                 //Verify given ID
-                while (!registryView.verifyBoatID(id)) {
+                while (!c_registryView.verifyBoatID(id)) {
                     id = sc.next();
                 }
-                registryView.getBoatInfo(id);
+                c_registryView.getBoatInfo(id);
 
             }
             //Change boat
@@ -170,10 +170,10 @@ public class Console extends MemberRegistry {
                 System.out.print("Give id of the boat you want to change: ");
                 String id = sc.next();
                 //Verify given ID
-                while (!registryView.verifyBoatID(id)) {
+                while (!c_registryView.verifyBoatID(id)) {
                     id = sc.next();
                 }
-                registryView.changeBoatRegistryView(id);
+                c_registryView.changeBoatRegistryView(id);
                 System.out.println("Boat succesfully changed");
             }
             //Remove boat
@@ -181,10 +181,10 @@ public class Console extends MemberRegistry {
                 System.out.println("What boat do you want to remove? (enter boat ID)");
                 String id = sc.next();
                 //Verify given ID
-                while (!registryView.verifyBoatID(id)) {
+                while (!c_registryView.verifyBoatID(id)) {
                     id = sc.next();
                 }
-                memberRegistry.deleteBoat(id);
+                c_memberRegistry.deleteBoat(id);
             }
             //Invalid input
             else {
@@ -200,12 +200,12 @@ public class Console extends MemberRegistry {
             //Verbose list
             if (val == 1) {
                 System.out.println("Verbose list of the club members:");
-                registryView.getVerboseList();
+                c_registryView.getVerboseList();
             }
             //Compose list
             else if (val == 2) {
                 System.out.println("Compose list of the club members:");
-                registryView.getComposeList();
+                c_registryView.getComposeList();
             }
             //Invalid input
             else {

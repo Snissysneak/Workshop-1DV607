@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class RegistryView {
     private MemberRegistry memberRegistry = new MemberRegistry();
-    private Member member = new Member();
+    private Member rv_member = new Member();
 
     /*Check if record with given member exist and send data to printMember()*/
     public void getMemberInfo(String memberID){
@@ -29,14 +29,14 @@ public class RegistryView {
         }
     }
     /*Method prints compose list of members */
-    public void getComposeList() throws FileNotFoundException {
+    public void getComposeList(){
         ArrayList<String[]> db = memberRegistry.readDatabase();
         for (String[] record : db)
             printComposeEntry(record);
 
     }
     /* Print one record of compose list in given record */
-    public void printComposeEntry(String[] entry) throws FileNotFoundException {
+    public void printComposeEntry(String[] entry){
         int boats = memberRegistry.getNumberOfBoats(entry);
         String boatsStr = Integer.toString(boats);
         System.out.print("Member ID: " + entry[0]);             //Take only the first part of entry and print
@@ -80,7 +80,7 @@ public class RegistryView {
         newName = sc.next();
         System.out.print("Set new personal number: ");
         newPersonNumber = sc.next();
-        while (newPersonNumber.length() != 10 || !member.checkLetter(newPersonNumber)) { //Check if the input is 10 characters long and if it contains a letter
+        while (newPersonNumber.length() != 10 || !rv_member.checkLetter(newPersonNumber)) { //Check if the input is 10 characters long and if it contains a letter
             System.out.println("Wrong input try again");
             newPersonNumber = sc.next();
         }

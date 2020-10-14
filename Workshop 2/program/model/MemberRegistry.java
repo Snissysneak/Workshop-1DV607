@@ -8,12 +8,9 @@ import java.util.Scanner;
 
 public class MemberRegistry {
     Member member;
+    Boat boat;
 
     public MemberRegistry() {
-    }
-
-    public MemberRegistry(Member member) {
-        this.member = member;
     }
 
     /*Add new entry member to the file. New entry contains memberID, name and person number*/
@@ -32,13 +29,11 @@ public class MemberRegistry {
     /*Change members info in the record  and write to the file */
     public void changeMember(String newName, String newPersonNumber, String memberID) {
         ArrayList<String[]> db = readDatabase();
-        int index = 0;
         for (String[] sourceRecord : db) {
             if (sourceRecord[0].equals(memberID)) {
                 sourceRecord[1] = newName;
                 sourceRecord[2] = newPersonNumber;
             }
-            index++;
         }
         writeDatabase(db);
     }
@@ -51,6 +46,8 @@ public class MemberRegistry {
     }
     /*Add Boat to file */
     public void addBoat(int boatID, String boatType, int boatLength, String ownerID) {
+        boat = new Boat(boatID,boatType,boatLength);
+
         ArrayList<String[]> db = readDatabase();
         int index = 0;
         for (int i = 0; i < db.size(); i++) {
@@ -59,12 +56,11 @@ public class MemberRegistry {
                 db.remove(index);
                 String[] record = Arrays.copyOf(sourceRecord, sourceRecord.length + 3);
 
-                record[sourceRecord.length] = Integer.toString(boatID);
-                record[sourceRecord.length + 1] = boatType;
-                record[sourceRecord.length + 2] = Integer.toString(boatLength);
+                record[sourceRecord.length] = Integer.toString(boat.getBoatID());
+                record[sourceRecord.length + 1] = boat.getBoatType();
+                record[sourceRecord.length + 2] = Integer.toString(boat.getBoatLength());
 
                 db.add(index, record);
-                String[] temp2 = db.get(index);
             }
             index++;
         }
@@ -100,7 +96,7 @@ public class MemberRegistry {
         writeDatabase(db);
     }
     /* Counting boats for member given in input */
-    public int getNumberOfBoats(String[] input) throws FileNotFoundException {
+    public int getNumberOfBoats(String[] input) {
         int numberOfBoats = 0;
         for (int i = 3; i < input.length; i++) {
             if (i % 3 == 0) {
@@ -119,13 +115,11 @@ public class MemberRegistry {
             PrintWriter pw = new PrintWriter(bw);
 
             for (String[] record : database) {
-                String newLine = "";
-                for (int i = 0; i < record.length; i++) {
-                    String entry = record[i];
+                StringBuilder newLine = new StringBuilder();
+                for (String entry : record) {
                     if (!entry.isEmpty())
-                        newLine = newLine + entry + " ";
-                    else
-                        continue;
+                        newLine.append(entry).append(" ");
+
                 }
                 pw.println(newLine);
             }
@@ -141,7 +135,6 @@ public class MemberRegistry {
     }
     /* Read content of file and save in ArrayList */
     public ArrayList<String[]> readDatabase() {
-        int i = 0;
         String line;
         ArrayList<String[]> entries = new ArrayList<>();
         try {
@@ -153,10 +146,7 @@ public class MemberRegistry {
                 String[] lineArray = line.split("\\s");   //line into array
                 if (!line.isEmpty()) {
                     entries.add(lineArray);
-                    i++;
                 }
-                if (line.isEmpty())
-                    continue;
             }
             x.close();
         } catch (IOException e) {

@@ -14,7 +14,6 @@ public class Member {
         this.name = m_name;
         this.personalNum = m_personalNum;
         this.memberID = m_memberID;
-
     }
 
     public String getName() {
