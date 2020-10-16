@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 
 public class MemberRegistry {
-    Member member;
-    Boat boat;
+    private Member member;
+    private Boat boat;
 
     public MemberRegistry() {
     }
