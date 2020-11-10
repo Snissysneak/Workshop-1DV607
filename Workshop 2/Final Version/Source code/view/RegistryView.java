@@ -2,143 +2,165 @@ package view;
 import model.Boat;
 import model.Member;
 import model.MemberRegistry;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.Scanner;
 
 public class RegistryView {
-    private MemberRegistry memberRegistry = new MemberRegistry();
-    private Member rv_member = new Member();
+    protected MemberRegistry rv_memberRegistry = new MemberRegistry();
+    protected Member rv_member = new Member();
+
 
     /*Check if record with given member exist and send data to printMember()*/
-    public void getMemberInfo(String memberID) throws IOException {
-        ArrayList<String[]> db = memberRegistry.readDatabase();
-        for (String[] record : db)
-            if (record[0].equals(memberID))
-                printMember(record);
+    public void getMemberInfo(int memberID) {
+        rv_memberRegistry.readFile();
+        rv_member = rv_memberRegistry.getMember(memberID);
+        printMember(rv_member);
     }
     /*Check if given boat exist and send data to printBoat()*/
-    public void getBoatInfo(String boatID) throws IOException {
-        ArrayList<String[]> db = memberRegistry.readDatabase();
-        for (String[] record : db) {
-            for (int i = 0; i < record.length; i++) {
-                if (record[i].equals(boatID)) {
-                    printBoat(record[i],record[i+1],record[i+2]);
-                }
-            }
-        }
-    }
-    /*Method prints compose list of members */
-    public void getComposeList() throws IOException {
-        ArrayList<String[]> db = memberRegistry.readDatabase();
-        for (String[] record : db)
-            printComposeEntry(record);
-
-    }
-    /* Print one record of compose list in given record */
-    public void printComposeEntry(String[] entry){
-        int boats = memberRegistry.getNumberOfBoats(entry);
-        String boatsStr = Integer.toString(boats);
-        System.out.print("Member ID: " + entry[0]);             //Take only the first part of entry and print
-        System.out.print(", name: " + entry[1]);                //Take only the second part and print
-        System.out.print(", owned boats: " + boatsStr + "\n"); //Take only the third part and print
-    }
-    /* Print verbose list with club members */
-    public void getVerboseList() throws IOException {
-        String id, type, length;
-        ArrayList<String[]> db = memberRegistry.readDatabase();
-        for (String[] record : db) {
-            printMember(record);                    //Call method for printing
-            System.out.println("Owned boats: ");
-            for (int i = 3; i < record.length; i++) {
-                if (i % 3 == 0) {
-                    id = record[i];
-                    type = record[i + 1];
-                    length = record[i + 2];
-                    printBoat(id, type, length);
-                }
-            }
-            System.out.println("--------------------------------------------------------");
-        }
-    }
-    /* Print information about member in given record */
-    public void printMember(String[] entry){
-        System.out.print("Member ID: " + entry[0]);             //Take only the first part of entry and print
-        System.out.print(", name: " + entry[1]);                //Take only the second part and print
-        System.out.print(", person number: " + entry[2] + "\n"); //Take only the third part and print
-    }
-    /*Print information about given Boat */
-    public void printBoat(String id, String type, String length) {
-        System.out.println("- boatID: " + id + ", boat type: " + type + ", boat length: " + length);
+    public void getBoatInfo(int a_boatID) {
+        rv_memberRegistry.readFile();
+        for (Member m : rv_memberRegistry.members_list)
+            for(Boat b : m.ownedBoats)
+                if(b.getBoatID() == a_boatID)
+                    printBoat(b);
     }
     /*Display information about change member process*/
-    public void changeMemberRegistryView(String memberID) throws IOException {
-        String newName, newPersonNumber;
+    public void changeMemberRegistryView(int a_memberID){
+        rv_memberRegistry.readFile();
         Scanner sc  = new Scanner(System.in);
 
+        rv_member = rv_memberRegistry.getMember(a_memberID);
+        rv_member.setMemberID(a_memberID);
+
         System.out.print("Set new name: ");
-        newName = sc.next();
+        rv_member.setName(sc.next());
+
         System.out.print("Set new personal number: ");
-        newPersonNumber = sc.next();
-        while (newPersonNumber.length() != 10 || !rv_member.checkLetter(newPersonNumber)) { //Check if the input is 10 characters long and if it contains a letter
-            System.out.println("Wrong input try again");
-            newPersonNumber = sc.next();
-        }
-        memberRegistry.changeMember(newName,newPersonNumber,memberID);
+        String newPersonNumber = sc.next();
+        personalNumberCheck(newPersonNumber);
+        rv_member.setPersonalNum(newPersonNumber);
+
+        rv_memberRegistry.changeMember(rv_member);
     }
     /*Display information about change boat process*/
-    public void changeBoatRegistryView(String boatID) throws IOException {
+    public void changeBoatRegistryView(int boatID){
+        rv_memberRegistry.readFile();
         Boat boat = new Boat();
-        String uppdatedType, uppdatedLength;
+        boat.setBoatID(boatID);
+
         Scanner scan = new Scanner(System.in);
 
         System.out.println("1 - Sailboat, 2 - Motorsailer, 3 - Kayak/Canoe, 4 - Other");
         System.out.print("Choose new type: ");
-        uppdatedType = scan.next();
         try {
-            boat.setBoatType(uppdatedType);
+            Boat.Type rv_boatType = boatTypeView(scan.nextInt());
+            boat.setBoatType(rv_boatType);
+
         } catch (NumberFormatException ex) {
             System.out.println("\nWrong input! Please try again");
             changeBoatRegistryView(boatID);
         }
         System.out.print("Set new length: ");
-        uppdatedLength = scan.next();
         try {
-            Integer.parseInt(uppdatedLength);
+            int uppdatedLength = scan.nextInt();
+            boat.setBoatLength(uppdatedLength);
         } catch (NumberFormatException ex) {
             System.out.println("\nWrong input! Please try again");
             changeBoatRegistryView(boatID);
         }
-        memberRegistry.changeBoat(boatID,boat.getBoatType(),uppdatedLength);
+        rv_memberRegistry.changeBoat(boat);
+    }
+
+    /*Method prints compose list of members */
+    public void getComposeList() {
+        rv_memberRegistry.readFile();
+        for (Member m : rv_memberRegistry.members_list)
+            printComposeEntry(m);
+    }
+
+    /* Print one record of compose list in given record */
+    public void printComposeEntry(Member a_member){
+        int boats = rv_memberRegistry.getNumberOfBoats(a_member);
+
+        System.out.print("Member ID: " + a_member.getMemberID());
+        System.out.print(", name: " + a_member.getName());
+        System.out.print(", owned boats: " + boats + "\n");
+    }
+
+    /* Print verbose list with club members */
+    public void getVerboseList() {
+
+        for (Member m : rv_memberRegistry.members_list){
+            printMember(m);
+            System.out.println("Owned boats: ");
+            for (Boat b : m.ownedBoats){
+                printBoat(b);
+            }
+            System.out.println();
+        }
+    }
+    /* Print information about member in given record */
+    public void printMember(Member a_member){
+        System.out.print("Member ID: " + a_member.getMemberID());
+        System.out.print(", name: " + a_member.getName());
+        System.out.print(", person number: " + a_member.getPersonalNum() + "\n");
+    }
+    /*Print information about given Boat */
+    public void printBoat(Boat a_boat) {
+        System.out.println("BoatID: " + a_boat.getBoatID()
+                + ", boat type: " + a_boat.getBoatType()
+                + ", boat length: " + a_boat.getBoatLength());
     }
     /*Returns true when memberID is already in file */
-    public boolean verifyID(String memberID) throws IOException {
-        if (memberRegistry.existInFile(memberID)) {
-            return true;
+    public boolean existMemberView(int a_memberID) {
+        if(rv_memberRegistry.existInFile(a_memberID)) {
+            return false;
         }
         else{
             System.out.print("No such member! Please try again: ");
-            return false;
+            return true;
         }
     }
     /*Returns true when boatID is already in file */
-    public boolean verifyBoatID(String boatID) throws IOException {
-        if (memberRegistry.existInFile(boatID)) {
-            return true;
+    public boolean verifyBoatID(int boatID){
+        if (rv_memberRegistry.existInFile(boatID)) {
+            return false;
         }
         else{
             System.out.print("No such boat! Please try again: ");
-            return false;
+            return true;
         }
     }
-    /*Returns true when input is already in file */
-    public boolean personNumberAlreadyExist(String input) throws IOException {
-        if (memberRegistry.existInFile(input)) {
-            System.out.println("Person number: " + input + " already exist in database");
-            return false;
+    public Boat.Type boatTypeView(int a_type){
+        Boat.Type rv_type = null;
+        try {
+            if (a_type == 1)
+                rv_type = Boat.Type.Sailboat;
+            else if(a_type == 2)
+                rv_type = Boat.Type.Motorsailer;
+            else if(a_type == 3)
+                rv_type = Boat.Type.Kayak_Canoe;
+            else if(a_type == 4)
+                rv_type = Boat.Type.Other;
+        } catch (NumberFormatException ex) {
+            System.out.println("\nWrong input! Please try again");
         }
-        else
-            return true;
+        return rv_type;
+    }
+    public void personalNumberCheck(String a_pn) {
+        Scanner sc = new Scanner(System.in);
+
+        //Check if the input is 10 characters long and if it contains a letter
+        while (a_pn.length() != 10 || !rv_memberRegistry.checkLetter(a_pn)) {
+            System.out.println("Wrong input try again");
+            a_pn = sc.next();
+        }
+
+        //Check if the input already exist in the file
+        while (rv_memberRegistry.existInFile(Integer.parseInt(a_pn))) {
+            System.out.println("Person number: " + a_pn + " already exist in database");
+            a_pn = sc.next();
+        }
+        sc.close();
     }
 }
