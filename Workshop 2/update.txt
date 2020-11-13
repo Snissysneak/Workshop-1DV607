@@ -1,0 +1,38 @@
+DONE:
+
+Boat
+	boat type ändrat till enum - tror att det var hidden dependency (vanligt string)
+	konstruktor med atributes är borta - behövs ej
+
+Member	
+	public ArrayList ownedBoats
+	funktion public void addBoat adds boats to ArrayList 
+	funktion getBoats behövs ej eftersom ArrayList ownedBoats är public och tillgängligt från andra klasser
+	konstruktor med atributes är borta - behövs ej
+	för varje new Member konstruktor producerar tom ArrayList ownedBoats
+
+MemberRegistry
+
+	hela database är på ArrayList members_list 
+	members_list är med alla Members samt varje Member har sin egen list med Boats
+	Deck.java i BlackJack var gjört på liknande sätt - därifrån kommer idee
+	varje funktion jobbar med objekter sparade på members_list och updaterar database.txt när ändring är gjört
+	
+	updateFile overwrites hela filen. Vet ej om vi måste leta efter något som overwrites bara ett linje
+
+RegistryView
+
+	jobbar först och främst med objekter sparade på members_list
+	var tvungen att anpassa varje funktion till ändringar i model
+
+Console
+	har börjat med detta och gjört preliminärt fördelning
+	
+
+TODO:
+	Console, RegistryView måste förbättras
+	Programmet fungerar inte i loopen
+	Ingen exit funktion
+	Fel input hantering
+	
+	
