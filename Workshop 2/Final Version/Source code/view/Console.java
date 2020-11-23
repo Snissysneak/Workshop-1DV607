@@ -29,9 +29,10 @@ public class Console extends MemberRegistry {
         if (choice == 4)
             System.exit(1);
 
-        else
+        else {
             //invalidInput();
             registryView.rv_memberRegistry.readFile();
+        }
     }
 
     public void memberSubMenu() throws IOException {
@@ -43,25 +44,21 @@ public class Console extends MemberRegistry {
         //Create member
         if (choice == 1) {
             createMemberView();
-            wantToContinue();
         }
 
         //Member Info
         else if (choice == 2) {
             memberInfoView();
-            wantToContinue();
         }
 
         //Change member
         else if (choice == 3) {
             changeMemberView();
-            wantToContinue();
         }
 
         //Remove member
         else if (choice == 4) {
             deleteMemberView();
-            wantToContinue();
         }
 
         //Invalid input
@@ -112,24 +109,24 @@ public class Console extends MemberRegistry {
         if (choice == 1) {
             System.out.println("Verbose list of the club members:");
             registryView.getVerboseList();
-            wantToContinue();
+            mainMenu();
         }
         //Compose list
         else if (choice == 2) {
             System.out.println("Compose list of the club members:");
             registryView.getComposeList();
-            wantToContinue();
+            mainMenu();
 
         }
         //Invalid input
         else
             invalidInput();
 
-        mainMenu();
         sc.close();
+        mainMenu();
     }
 
-    public void createMemberView(){
+    public void createMemberView() throws IOException {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Set name: ");
@@ -146,8 +143,8 @@ public class Console extends MemberRegistry {
 
         registryView.rv_memberRegistry.addMember(registryView.rv_member); //call for adding the member
         System.out.println("Member succesfully created");
-        wantToContinue();
         sc.close();
+        mainMenu();
     }
 
     public void memberInfoView() throws IOException {
@@ -161,7 +158,7 @@ public class Console extends MemberRegistry {
             id = sc.nextInt();
         }
         registryView.getMemberInfo(id);
-        wantToContinue();
+        mainMenu();
         sc.close();
     }
 
@@ -269,8 +266,5 @@ public class Console extends MemberRegistry {
             mainMenu();
         sc.close();
     }
-
-    //TODO
-    public void wantToContinue() { System.exit(1); }
 
 }
