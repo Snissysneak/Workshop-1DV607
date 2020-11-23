@@ -5,7 +5,8 @@ import model.MemberRegistry;
 import java.util.Scanner;
 
 public class RegistryView {
-    protected MemberRegistry rv_memberRegistry = new MemberRegistry();
+
+    protected MemberRegistry memberRegistry = new MemberRegistry();
     private final static Scanner sc = new Scanner(System.in);
 
     //*******************Member*****************************************
@@ -19,10 +20,10 @@ public class RegistryView {
         String v_personalNum = sc.next();
         personalNumberCheck(v_personalNum);
         rv_member.setPersonalNum(v_personalNum);
-        int v_memberID = rv_memberRegistry.idGenerator(); //call for rand id
+        int v_memberID = memberRegistry.idGenerator(); //call for rand id
         rv_member.setMemberID(v_memberID);
         System.out.println("Generated ID for this member: " + v_memberID);
-        rv_memberRegistry.addMember(rv_member); //call for adding the member
+        memberRegistry.addMember(rv_member); //call for adding the member
         System.out.println("Member succesfully created");
     }
 
@@ -33,8 +34,8 @@ public class RegistryView {
         while (existMemberView(id)) {
             id = sc.nextInt();
         }
-        rv_memberRegistry.readFile();
-        Member rv_member = rv_memberRegistry.getMember(id);
+        memberRegistry.readFile();
+        Member rv_member = memberRegistry.getMember(id);
         printMember(rv_member);
     }
 
@@ -45,8 +46,8 @@ public class RegistryView {
         while (existMemberView(id)) {
             id = sc.nextInt();
         }
-        rv_memberRegistry.readFile();
-        Member rv_member = rv_memberRegistry.getMember(id);
+        memberRegistry.readFile();
+        Member rv_member = memberRegistry.getMember(id);
         rv_member.setMemberID(id);
         System.out.print("Set new name: ");
         rv_member.setName(sc.next());
@@ -54,7 +55,7 @@ public class RegistryView {
         String newPersonNumber = sc.next();
         personalNumberCheck(newPersonNumber);
         rv_member.setPersonalNum(newPersonNumber);
-        rv_memberRegistry.changeMember(rv_member);
+        memberRegistry.changeMember(rv_member);
         System.out.println("Member succesfully changed");
     }
 
@@ -66,27 +67,27 @@ public class RegistryView {
         while (existMemberView(id)) {
             id = sc.nextInt();
         }
-        rv_member = rv_memberRegistry.getMember(id);
-        rv_memberRegistry.deleteMember(rv_member);
+        rv_member = memberRegistry.getMember(id);
+        memberRegistry.deleteMember(rv_member);
         System.out.println("Member removed!");
     }
 
     /*Returns true when memberID is already in file */
     public boolean existMemberView(int a_memberID) {
-        if (rv_memberRegistry.notExistInFile(a_memberID)) {
+        if (memberRegistry.notExistInFile(a_memberID)) {
             System.out.print("No such member! Please try again: ");
         }
-        return rv_memberRegistry.notExistInFile(a_memberID);
+        return memberRegistry.notExistInFile(a_memberID);
     }
     /* Method checks person number */
     public void personalNumberCheck(String a_pn) {
-        while (!rv_memberRegistry.checkPersonalNumber(a_pn)) {
+        while (!memberRegistry.checkPersonalNumber(a_pn)) {
             System.out.println("Wrong input try again");
             a_pn = sc.next();
         }
 
         //Check if the input already exist in the file
-        while (!rv_memberRegistry.notExistInFile(Integer.parseInt(a_pn))) {
+        while (!memberRegistry.notExistInFile(Integer.parseInt(a_pn))) {
             System.out.println("Person number: " + a_pn + " already exist in database");
             a_pn = sc.next();
         }
@@ -117,26 +118,26 @@ public class RegistryView {
             v_ownerID = sc.nextInt();
         }
 
-        int v_boatID = rv_memberRegistry.idGenerator();
-        while (rv_memberRegistry.notExistInFile(v_boatID)) {
-            v_boatID = rv_memberRegistry.idGenerator(); //call for rand id
+        int v_boatID = memberRegistry.idGenerator();
+        while (memberRegistry.notExistInFile(v_boatID)) {
+            v_boatID = memberRegistry.idGenerator(); //call for rand id
         }
         v_boat.setBoatID(v_boatID);
         System.out.println("Generated ID for this boat: " + v_boatID);
 
-        rv_memberRegistry.addBoat(v_ownerID, v_boat);
+        memberRegistry.addBoat(v_ownerID, v_boat);
     }
 
     /* Boat info process with instructions */
     public void getBoatInfo() {
-        rv_memberRegistry.readFile();
+        memberRegistry.readFile();
         System.out.print("Give id of the boat you want to check: ");
         int id = sc.nextInt();
         //Verify given ID
         while (verifyBoatID(id)) {
             id = sc.nextInt();
         }
-        for (Member m : rv_memberRegistry.members_list)
+        for (Member m : memberRegistry.members_list)
             for(Boat b : m.ownedBoats)
                 if(b.getBoatID() == id)
                     printBoat(b);
@@ -144,7 +145,7 @@ public class RegistryView {
     /* Change boat process with instructions */
     public void changeBoatRegistryView(){
         Boat rv_boat = new Boat();
-        rv_memberRegistry.readFile();
+        memberRegistry.readFile();
 
         System.out.print("Give id of the boat you want to change: ");
         int id = sc.nextInt();
@@ -171,7 +172,7 @@ public class RegistryView {
             System.out.println("\nWrong input! Please try again");
             changeBoatRegistryView();
         }
-        rv_memberRegistry.changeBoat(rv_boat);
+        memberRegistry.changeBoat(rv_boat);
         System.out.println("Boat succesfully changed");
     }
     /* Delete boat process with instructions */
@@ -182,15 +183,15 @@ public class RegistryView {
         while (verifyBoatID(id)) {
             id = sc.nextInt();
         }
-        rv_memberRegistry.deleteBoat(id);
+        memberRegistry.deleteBoat(id);
     }
 
     /*Returns true when boatID is already in file */
     public boolean verifyBoatID(int boatID){
-        if (rv_memberRegistry.notExistInFile(boatID)) {
+        if (memberRegistry.notExistInFile(boatID)) {
             System.out.print("No such boat! Please try again: ");
         }
-        return rv_memberRegistry.notExistInFile(boatID);
+        return memberRegistry.notExistInFile(boatID);
     }
     /* Method translate input to boat  type */
     public Boat.Type boatTypeView(int a_type){
@@ -211,16 +212,17 @@ public class RegistryView {
     }
     //
     //List / Print
+    //
 
     /*Method prints compose list of members */
     public void getComposeList() {
-        rv_memberRegistry.readFile();
-        for (Member m : rv_memberRegistry.members_list)
+        memberRegistry.readFile();
+        for (Member m : memberRegistry.members_list)
             printComposeEntry(m);
     }
     /* Print one record of compose list in given record */
     public void printComposeEntry(Member a_member){
-        int boats = rv_memberRegistry.getNumberOfBoats(a_member);
+        int boats = memberRegistry.getNumberOfBoats(a_member);
 
         System.out.print("Member ID: " + a_member.getMemberID());
         System.out.print(", name: " + a_member.getName());
@@ -229,7 +231,7 @@ public class RegistryView {
     /* Print verbose list with club members */
     public void getVerboseList() {
 
-        for (Member m : rv_memberRegistry.members_list){
+        for (Member m : memberRegistry.members_list){
             printMember(m);
             System.out.println("Owned boats: ");
             for (Boat b : m.ownedBoats){

@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class MemberRegistry {
 
-    public ArrayList<Member> members_list;
+    public ArrayList<Member> membersList;
     private final String splitter = " ";
 
     public MemberRegistry() {
@@ -15,32 +15,32 @@ public class MemberRegistry {
 
     /*Add new entry member to the file. New entry contains memberID, name and person number*/
     public void addMember(Member a_member) {
-        members_list.add(a_member);
+        membersList.add(a_member);
         updateFile();
     }
 
     /*Change members info in the record  and write to the file */
     public void changeMember(Member a_member) {
         int index = -1;
-        for (Member m : members_list){
+        for (Member m : membersList){
             if(m.getMemberID() == a_member.getMemberID()){
-                index = members_list.indexOf(m);
+                index = membersList.indexOf(m);
             }
         }
-        members_list.remove(index);
-        members_list.add(index, a_member);
+        membersList.remove(index);
+        membersList.add(index, a_member);
         updateFile();
     }
 
     /*Removes members record from the file */
     public void deleteMember(Member a_member) {
-        members_list.removeIf(tempMember -> tempMember.equals(a_member));
+        membersList.removeIf(tempMember -> tempMember.equals(a_member));
         updateFile();
     }
 
     public Member getMember(int a_memberID) {
         Member member = new Member();
-        for (Member m : members_list){
+        for (Member m : membersList){
             if(m.getMemberID() == a_memberID){
                 return m;
             }
@@ -50,7 +50,7 @@ public class MemberRegistry {
 
     /*Add Boat to file */
     public void addBoat(int a_memberID, Boat a_boat) {
-        for (Member m : members_list){
+        for (Member m : membersList){
             if(m.getMemberID() == a_memberID){
                 m.addBoat(a_boat);
             }
@@ -60,7 +60,7 @@ public class MemberRegistry {
 
     /*Change members info in the record  and write to the file */
     public void changeBoat (Boat a_boat) {
-        for (Member m : members_list) {
+        for (Member m : membersList) {
             for (Boat b : m.ownedBoats) {
                 if (b.getBoatID() == a_boat.getBoatID()) {
                     m.ownedBoats.remove(b);
@@ -74,7 +74,7 @@ public class MemberRegistry {
 
     /*Delete boat from file */
     public void deleteBoat(int a_boatID) {
-        for (Member m : members_list) {
+        for (Member m : membersList) {
             m.ownedBoats.removeIf(b -> b.getBoatID() == a_boatID);
         }
         updateFile();
@@ -93,7 +93,7 @@ public class MemberRegistry {
             BufferedWriter bw = new BufferedWriter(fileWritter);
 
             // append text to file
-            for (Member member : members_list) {
+            for (Member member : membersList) {
                 bw.write(member.getMemberID() + splitter + member.getName() + splitter + member.getPersonalNum() + splitter);
                 for (Boat b : member.ownedBoats) {
                     bw.write(b.getBoatID() + splitter + b.getBoatType() + splitter + b.getBoatLength() + splitter);
@@ -116,13 +116,13 @@ public class MemberRegistry {
             File file = new File("database.txt");
                 file.createNewFile();
             BufferedReader br = new BufferedReader(new FileReader("database.txt"));
-            members_list = new ArrayList<>();
+            membersList = new ArrayList<>();
 
             String entry;
 
             while ((entry = br.readLine()) != null) {
                 Member m_member = readEntry(entry);
-                members_list.add(m_member);
+                membersList.add(m_member);
             }
             // close the reader
             br.close();
@@ -153,7 +153,7 @@ public class MemberRegistry {
 
     /*Returns true if id already in the file */
     public boolean notExistInFile(int a_ID){
-        for(Member m : members_list){
+        for(Member m : membersList){
             if (m.getMemberID() == a_ID)
                 return false;
             for(Boat b : m.ownedBoats){

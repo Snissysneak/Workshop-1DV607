@@ -9,7 +9,7 @@ public class Console extends MemberRegistry {
     private final static Scanner sc = new Scanner(System.in);
 
     public void mainMenu() throws IOException {
-        registryView.rv_memberRegistry.readFile();
+        registryView.memberRegistry.readFile();
         System.out.println("Welcome in Boat Club"); //Start of menu
         System.out.println("1. Member\n2. Boat\n3. List\n4. Quit");
         int choice = sc.nextInt();
