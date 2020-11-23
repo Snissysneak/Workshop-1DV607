@@ -137,7 +137,7 @@ public class RegistryView {
         while (verifyBoatID(id)) {
             id = sc.nextInt();
         }
-        for (Member m : memberRegistry.members_list)
+        for (Member m : memberRegistry.membersList)
             for(Boat b : m.ownedBoats)
                 if(b.getBoatID() == id)
                     printBoat(b);
@@ -217,7 +217,7 @@ public class RegistryView {
     /*Method prints compose list of members */
     public void getComposeList() {
         memberRegistry.readFile();
-        for (Member m : memberRegistry.members_list)
+        for (Member m : memberRegistry.membersList)
             printComposeEntry(m);
     }
     /* Print one record of compose list in given record */
@@ -231,7 +231,7 @@ public class RegistryView {
     /* Print verbose list with club members */
     public void getVerboseList() {
 
-        for (Member m : memberRegistry.members_list){
+        for (Member m : memberRegistry.membersList){
             printMember(m);
             System.out.println("Owned boats: ");
             for (Boat b : m.ownedBoats){
