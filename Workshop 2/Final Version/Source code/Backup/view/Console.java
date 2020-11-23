@@ -9,6 +9,13 @@ import java.util.Scanner;
 public class Console extends MemberRegistry {
     private final RegistryView registryView = new RegistryView();
 
+
+    /*Main method to start a program*/
+    public static void main(String[] args) throws IOException {
+        Console console = new Console();
+        console.mainMenu(); //Starts off the program by calling the method mainMenu.
+    }
+
     public void mainMenu() throws IOException {
         registryView.rv_memberRegistry.readFile();
         System.out.println("Welcome in Boat Club"); //Start of menu
@@ -222,7 +229,7 @@ public class Console extends MemberRegistry {
         }
 
         int v_boatID = registryView.rv_memberRegistry.idGenerator();
-        while (registryView.rv_memberRegistry.notExistInFile(v_boatID)) {
+        while (registryView.rv_memberRegistry.existInFile(v_boatID)) {
             v_boatID = registryView.rv_memberRegistry.idGenerator(); //call for rand id
         }
         v_boat.setBoatID(v_boatID);
@@ -271,6 +278,8 @@ public class Console extends MemberRegistry {
     }
 
     //TODO
-    public void wantToContinue() { System.exit(1); }
+    public void wantToContinue() {
+        System.exit(1);
+    }
 
 }
