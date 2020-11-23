@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class RegistryView {
     protected MemberRegistry rv_memberRegistry = new MemberRegistry();
     protected Member rv_member = new Member();
-    protected Boat rv_boat = new Boat();
 
 
     /*Check if record with given member exist and send data to printMember()*/
@@ -45,6 +44,7 @@ public class RegistryView {
     }
     /*Display information about change boat process*/
     public void changeBoatRegistryView(int boatID){
+        Boat rv_boat = new Boat();
         rv_memberRegistry.readFile();
         rv_boat.setBoatID(boatID);
 
@@ -151,7 +151,7 @@ public class RegistryView {
         }
 
         //Check if the input already exist in the file
-        while (rv_memberRegistry.notExistInFile(Integer.parseInt(a_pn))) {
+        while (!rv_memberRegistry.notExistInFile(Integer.parseInt(a_pn))) {
             System.out.println("Person number: " + a_pn + " already exist in database");
             a_pn = sc.next();
         }
