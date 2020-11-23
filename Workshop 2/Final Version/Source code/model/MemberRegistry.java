@@ -113,6 +113,8 @@ public class MemberRegistry {
     public void readFile() {
         try {
             // create a reader instance
+            File file = new File("database.txt");
+                file.createNewFile();
             BufferedReader br = new BufferedReader(new FileReader("database.txt"));
             members_list = new ArrayList<>();
 
@@ -150,34 +152,37 @@ public class MemberRegistry {
 
 
     /*Returns true if id already in the file */
-    public boolean existInFile(int a_ID){
+    public boolean notExistInFile(int a_ID){
         for(Member m : members_list){
             if (m.getMemberID() == a_ID)
-                return true;
+                return false;
             for(Boat b : m.ownedBoats){
                 if (b.getBoatID() == a_ID)
-                    return true;
+                    return false;
             }
         }
-        return false;
+        return true;
     }
 
     public int idGenerator() {
         Random rand = new Random();
         int randomID = rand.nextInt(9999 - 1000) + 1000; //random number generator
-        if(existInFile(randomID))
+        if(!notExistInFile(randomID))
             randomID = rand.nextInt(9999 - 1000) + 1000;
         return randomID;
     }
 
-    public boolean checkLetter(String input) {
-        boolean isNumber = true;
+    public boolean checkPersonalNumber(String input) {
+        boolean isCorrect = true;
         for (int i = 0; i < input.length(); i++) { //Check every char in the input for a letter
             if (Character.isLetter(input.charAt(i))) {
-                isNumber = false;
+                isCorrect = false;
             }
         }
-        return isNumber;
+        if (input.length() != 10) {
+            isCorrect = false;
+        }
+        return isCorrect;
     }
 }
 
