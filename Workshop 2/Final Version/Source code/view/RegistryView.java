@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class RegistryView {
     protected MemberRegistry rv_memberRegistry = new MemberRegistry();
     protected Member rv_member = new Member();
+    protected Boat rv_boat = new Boat();
 
 
     /*Check if record with given member exist and send data to printMember()*/
@@ -45,8 +46,7 @@ public class RegistryView {
     /*Display information about change boat process*/
     public void changeBoatRegistryView(int boatID){
         rv_memberRegistry.readFile();
-        Boat boat = new Boat();
-        boat.setBoatID(boatID);
+        rv_boat.setBoatID(boatID);
 
         Scanner scan = new Scanner(System.in);
 
@@ -54,7 +54,7 @@ public class RegistryView {
         System.out.print("Choose new type: ");
         try {
             Boat.Type rv_boatType = boatTypeView(scan.nextInt());
-            boat.setBoatType(rv_boatType);
+            rv_boat.setBoatType(rv_boatType);
 
         } catch (NumberFormatException ex) {
             System.out.println("\nWrong input! Please try again");
@@ -63,12 +63,12 @@ public class RegistryView {
         System.out.print("Set new length: ");
         try {
             int uppdatedLength = scan.nextInt();
-            boat.setBoatLength(uppdatedLength);
+            rv_boat.setBoatLength(uppdatedLength);
         } catch (NumberFormatException ex) {
             System.out.println("\nWrong input! Please try again");
             changeBoatRegistryView(boatID);
         }
-        rv_memberRegistry.changeBoat(boat);
+        rv_memberRegistry.changeBoat(rv_boat);
     }
 
     /*Method prints compose list of members */
@@ -113,25 +113,19 @@ public class RegistryView {
     }
     /*Returns true when memberID is already in file */
     public boolean existMemberView(int a_memberID) {
-        if(rv_memberRegistry.existInFile(a_memberID)) {
-            return false;
-        }
-        else{
+        if (rv_memberRegistry.notExistInFile(a_memberID)) {
             System.out.print("No such member! Please try again: ");
-            return true;
         }
+        return rv_memberRegistry.notExistInFile(a_memberID);
     }
     /*Returns true when boatID is already in file */
     public boolean verifyBoatID(int boatID){
-        if (rv_memberRegistry.existInFile(boatID)) {
-            return false;
-        }
-        else{
+        if (rv_memberRegistry.notExistInFile(boatID)) {
             System.out.print("No such boat! Please try again: ");
-            return true;
         }
+        return rv_memberRegistry.notExistInFile(boatID);
     }
-    public Boat.Type boatTypeView(int a_type){
+    public Boat.Type boatTypeView(int a_type){ //Check this later
         Boat.Type rv_type = null;
         try {
             if (a_type == 1)
@@ -151,13 +145,13 @@ public class RegistryView {
         Scanner sc = new Scanner(System.in);
 
         //Check if the input is 10 characters long and if it contains a letter
-        while (a_pn.length() != 10 || !rv_memberRegistry.checkLetter(a_pn)) {
+        while (!rv_memberRegistry.checkPersonalNumber(a_pn)) {
             System.out.println("Wrong input try again");
             a_pn = sc.next();
         }
 
         //Check if the input already exist in the file
-        while (rv_memberRegistry.existInFile(Integer.parseInt(a_pn))) {
+        while (rv_memberRegistry.notExistInFile(Integer.parseInt(a_pn))) {
             System.out.println("Person number: " + a_pn + " already exist in database");
             a_pn = sc.next();
         }
