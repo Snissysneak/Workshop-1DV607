@@ -1,10 +1,11 @@
 package model;
 import java.util.ArrayList;
+import java.math.BigInteger;
 
 public class Member {
     private String name;
     private String personalNum;
-    private int memberID;
+    private BigInteger memberID;
     public ArrayList<Boat> ownedBoats;        //new
 
     public Member() { this.ownedBoats = new ArrayList<>();}     //new
@@ -23,11 +24,11 @@ public class Member {
         return personalNum;
     }
 
-    public void setMemberID(int a_memberID) {
+    public void setMemberID(BigInteger a_memberID) {
         this.memberID = a_memberID;
     }
 
-    public int getMemberID() {
+    public BigInteger getMemberID() {
         return memberID;
     }
 

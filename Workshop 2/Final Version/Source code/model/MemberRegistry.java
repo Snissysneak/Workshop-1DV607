@@ -1,5 +1,6 @@
 package model;
 
+import java.math.BigInteger;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,7 +24,7 @@ public class MemberRegistry {
     public void changeMember(Member a_member) {
         int index = -1;
         for (Member m : membersList){
-            if(m.getMemberID() == a_member.getMemberID()){
+            if(m.getMemberID().equals(a_member.getMemberID())){
                 index = membersList.indexOf(m);
             }
         }
@@ -38,10 +39,10 @@ public class MemberRegistry {
         updateFile();
     }
 
-    public Member getMember(int a_memberID) {
+    public Member getMember(BigInteger a_memberID) {
         Member member = new Member();
         for (Member m : membersList){
-            if(m.getMemberID() == a_memberID){
+            if(m.getMemberID().equals(a_memberID)){
                 return m;
             }
         }
@@ -49,9 +50,9 @@ public class MemberRegistry {
     }
 
     /*Add Boat to file */
-    public void addBoat(int a_memberID, Boat a_boat) {
+    public void addBoat(BigInteger a_memberID, Boat a_boat) {
         for (Member m : membersList){
-            if(m.getMemberID() == a_memberID){
+            if(m.getMemberID().equals(a_memberID)){
                 m.addBoat(a_boat);
             }
         }
@@ -62,7 +63,7 @@ public class MemberRegistry {
     public void changeBoat (Boat a_boat) {
         for (Member m : membersList) {
             for (Boat b : m.ownedBoats) {
-                if (b.getBoatID() == a_boat.getBoatID()) {
+                if (b.getBoatID().equals(a_boat.getBoatID())) {
                     m.ownedBoats.remove(b);
                     m.ownedBoats.add(a_boat);
                 }
@@ -73,9 +74,9 @@ public class MemberRegistry {
 
 
     /*Delete boat from file */
-    public void deleteBoat(int a_boatID) {
+    public void deleteBoat(BigInteger a_boatID) {
         for (Member m : membersList) {
-            m.ownedBoats.removeIf(b -> b.getBoatID() == a_boatID);
+            m.ownedBoats.removeIf(b -> b.getBoatID().equals(a_boatID));
         }
         updateFile();
     }
@@ -135,13 +136,15 @@ public class MemberRegistry {
         Member m_member = new Member();
         String[] entryArray = a_entry.split(splitter);
 
-        m_member.setMemberID(Integer.parseInt(entryArray[0]));
+        BigInteger memberID = new BigInteger(entryArray[0]);
+        m_member.setMemberID(memberID);
         m_member.setName(entryArray[1]);
         m_member.setPersonalNum(entryArray[2]);
         for (int i = 3; i < entryArray.length; i++) {
             if (i % 3 == 0) {
                 Boat b = new Boat();
-                b.setBoatID(Integer.parseInt(entryArray[i]));
+                BigInteger boatID = new BigInteger(entryArray[i]);
+                b.setBoatID(boatID);
                 b.setBoatType(Boat.Type.valueOf(entryArray[i + 1]));
                 b.setBoatLength(Integer.parseInt(entryArray[i + 2]));
                 m_member.ownedBoats.add(b);
@@ -152,23 +155,25 @@ public class MemberRegistry {
 
 
     /*Returns true if id already in the file */
-    public boolean notExistInFile(int a_ID){
+    public boolean notExistInFile(BigInteger a_ID){
         for(Member m : membersList){
-            if (m.getMemberID() == a_ID)
+            if (m.getMemberID().equals(a_ID))
                 return false;
             for(Boat b : m.ownedBoats){
-                if (b.getBoatID() == a_ID)
+                if (b.getBoatID().equals(a_ID))
                     return false;
             }
         }
         return true;
     }
 
-    public int idGenerator() {
+    public BigInteger idGenerator() {
         Random rand = new Random();
-        int randomID = rand.nextInt(9999 - 1000) + 1000; //random number generator
+        int randTMP = rand.nextInt(9999 - 1000) + 1000; //random number generator
+        BigInteger randomID = new BigInteger(String.valueOf(randTMP));
         if(!notExistInFile(randomID))
-            randomID = rand.nextInt(9999 - 1000) + 1000;
+            randTMP = rand.nextInt(9999 - 1000) + 1000;
+        randomID = new BigInteger(String.valueOf(randTMP));
         return randomID;
     }
 

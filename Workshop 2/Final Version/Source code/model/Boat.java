@@ -1,6 +1,9 @@
 package model;
+
+import java.math.BigInteger;
+
 public class Boat{
-    private int boatID;
+    private BigInteger boatID;
     private Type boatType;
     private int boatLength;
 
@@ -13,11 +16,11 @@ public class Boat{
 
     public Boat() { }
 
-    public void setBoatID(int boatID) {
+    public void setBoatID(BigInteger boatID) {
         this.boatID = boatID;
     }
 
-    public int getBoatID() {
+    public BigInteger getBoatID() {
         return boatID;
     }
 
