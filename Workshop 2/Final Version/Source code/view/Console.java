@@ -10,7 +10,9 @@ public class Console extends MemberRegistry {
 
     public void mainMenu() throws IOException {
         registryView.memberRegistry.readFile();
+        System.out.println("--------------------");
         System.out.println("Welcome in Boat Club"); //Start of menu
+        System.out.println("--------------------");
         System.out.println("1. Member\n2. Boat\n3. List\n4. Quit");
         int choice = sc.nextInt();
 
@@ -54,6 +56,7 @@ public class Console extends MemberRegistry {
         //Invalid input
         else
             invalidInput();
+        mainMenu();
     }
 
     public void boatSubMenu() throws IOException {
@@ -79,6 +82,7 @@ public class Console extends MemberRegistry {
         }
         else
             invalidInput();
+        mainMenu();
     }
 
     public void listSubMenu() throws IOException {
@@ -102,6 +106,7 @@ public class Console extends MemberRegistry {
         //Invalid input
         else
             invalidInput();
+        mainMenu();
     }
 
     public void invalidInput() throws IOException {
