@@ -171,9 +171,10 @@ public class MemberRegistry {
         Random rand = new Random();
         int randTMP = rand.nextInt(9999 - 1000) + 1000; //random number generator
         BigInteger randomID = new BigInteger(String.valueOf(randTMP));
-        if(!notExistInFile(randomID))
+        while (!notExistInFile(randomID)) {
             randTMP = rand.nextInt(9999 - 1000) + 1000;
-        randomID = new BigInteger(String.valueOf(randTMP));
+            randomID = new BigInteger(String.valueOf(randTMP));
+        }
         return randomID;
     }
 
