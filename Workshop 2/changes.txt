@@ -39,13 +39,15 @@ Code:
 	
 
 Hidden Dependencies:
-
 	- proper MV separation and design removed hidden dependencies
 	- changes in Boat.java removed hidden dependency
+	-
 
 Class diagram
-
 	- updated according to changes
 	- roll name for each association
+
+Sequence diagram:
+	- 
 
 
