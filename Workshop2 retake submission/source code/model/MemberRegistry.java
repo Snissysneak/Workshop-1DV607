@@ -144,7 +144,7 @@ public class MemberRegistry {
         int memberID = Integer.parseInt(entryArray[0]);
         m_member.setMemberID(memberID);
         m_member.setName(entryArray[1]);
-        m_member.setPersonalNum(entryArray[2]);
+        m_member.setPersonalNum(BigInteger.valueOf(Integer.parseInt(entryArray[2])));
         for (int i = 3; i < entryArray.length; i++) {
             if (i % 3 == 0) {
                 Boat b = new Boat();
@@ -171,7 +171,7 @@ public class MemberRegistry {
         return false;
     }
     /* Return true when given person number exist in file */
-    public boolean personNumberExistInFile(String personNum) {
+    public boolean personNumberExistInFile(BigInteger personNum) {
         boolean exist = false;
         for (Member m : membersList) {
             if (m.getPersonalNum().equals(personNum))
@@ -191,7 +191,8 @@ public class MemberRegistry {
     }
 
     /* Method check person number */
-    public boolean checkPersonalNumber(String input) {
+    public boolean checkPersonalNumber(BigInteger a_input) {
+        String input = a_input.toString();
         boolean isCorrect = true;
         for (int i = 0; i < input.length(); i++) {
             if (Character.isLetter(input.charAt(i))) {

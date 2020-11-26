@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 public class Member {
     private String name;
-    private String personalNum;
+    private BigInteger personalNum;
     private int memberID;
     public ArrayList<Boat> ownedBoats;
 
@@ -17,10 +17,10 @@ public class Member {
     public String getName() { return name; }
 
     /* Set person number */
-    public void setPersonalNum(String a_personalNum) {  this.personalNum = a_personalNum; }
+    public void setPersonalNum(BigInteger a_personalNum) {  this.personalNum = a_personalNum; }
 
     /* get person number */
-    public String getPersonalNum() { return personalNum; }
+    public BigInteger getPersonalNum() { return personalNum; }
 
     /* set id */
     public void setMemberID(int a_memberID) { this.memberID = a_memberID; }
