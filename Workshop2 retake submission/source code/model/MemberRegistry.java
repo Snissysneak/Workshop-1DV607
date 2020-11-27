@@ -194,11 +194,6 @@ public class MemberRegistry {
     public boolean checkPersonalNumber(BigInteger a_input) {
         String input = a_input.toString();
         boolean isCorrect = true;
-        for (int i = 0; i < input.length(); i++) {
-            if (Character.isLetter(input.charAt(i))) {
-                isCorrect = false;
-            }
-        }
         if (input.length() != 10) {
             isCorrect = false;
         }
