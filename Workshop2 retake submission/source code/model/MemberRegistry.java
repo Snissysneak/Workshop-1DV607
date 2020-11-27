@@ -144,7 +144,7 @@ public class MemberRegistry {
         int memberID = Integer.parseInt(entryArray[0]);
         m_member.setMemberID(memberID);
         m_member.setName(entryArray[1]);
-        m_member.setPersonalNum(BigInteger.valueOf(Integer.parseInt(entryArray[2])));
+        m_member.setPersonalNum(new BigInteger(entryArray[2]));
         for (int i = 3; i < entryArray.length; i++) {
             if (i % 3 == 0) {
                 Boat b = new Boat();

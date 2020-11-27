@@ -1,0 +1,53 @@
+Changes we have done according to feedback:
+
+Code:
+	Program.java
+	- main function to start program
+
+	View package
+	- removed model responsibility
+
+	Console.java
+	- menu and submenus broken into different operations
+	- removed model functionality
+	- class specialized in menu handling
+
+	RegistryView.java
+	- updated each method
+	- class responsible for view for each option in menu
+	
+	Model package
+	-removed view responsibility 
+
+	MemberRegistry.java
+	- OO design
+	- updated each method
+	- Boat and Member attributes removed
+	- Added ArrayList<Member> membersList
+	- Read/write functionality works with objects stored on ArrayList
+	- class responsible for model functionality
+
+	Member.java
+	- added ArrayList<Boat> ownedBoats 
+	- changed person number type to BigInteger
+	- added addBoat() and getBoat methods()
+	- removed method checkLetter()
+
+	Boat.java
+	- added enum for Type handling
+	- setType method fix
+	
+
+Hidden Dependencies:
+	- proper MV separation and design removed hidden dependencies
+	- changes in Boat.java removed hidden dependency
+	-
+
+Class diagram
+	- updated according to changes
+	- roll name for each association
+
+Sequence diagram:
+	- 
+
+
